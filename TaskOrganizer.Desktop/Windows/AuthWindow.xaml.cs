@@ -23,7 +23,7 @@ namespace TaskOrganizer.Desktop.Windows
     public AuthWindow()
     {
       InitializeComponent();
-      AuthFrame.Navigate(new Login());
+      AuthFrame.Navigate(new LoginPage());
     }
   }
 }

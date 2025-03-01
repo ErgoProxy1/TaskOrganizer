@@ -12,18 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskOrganizer.Desktop.Pages.Login;
 
-namespace TaskOrganizer.Desktop.Pages.Login
+namespace TaskOrganizer.Desktop.Pages.Signup
 {
   /// <summary>
-  /// Interaction logic for Login.xaml
+  /// Interaction logic for Signup.xaml
   /// </summary>
-  public partial class Login : Page
+  public partial class SignupPage : Page
   {
-    public Login()
+    public SignupPage()
     {
       InitializeComponent();
-      DataContext = new LoginVM();
+      DataContext = new SignupPageVM();
+    }
+
+    private void NavigateToLogin_Click(object sender, RoutedEventArgs e)
+    {
+      this.NavigationService.Navigate(new LoginPage());
     }
   }
 }

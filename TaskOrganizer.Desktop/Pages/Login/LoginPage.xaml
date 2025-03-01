@@ -1,4 +1,4 @@
-﻿<Page x:Class="TaskOrganizer.Desktop.Pages.Login.Login"
+﻿<Page x:Class="TaskOrganizer.Desktop.Pages.Login.LoginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -20,7 +20,8 @@
         <Label>Password:</Label>
         <TextBox Text="{Binding Password}"></TextBox>
         <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Hyperlink>Signup</Hyperlink>
+            <Hyperlink Click="NavigateToSignup_Click">Signup</Hyperlink>
         </TextBlock>
+        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0">Login</Button>
     </StackPanel>
 </Page>

@@ -6,11 +6,22 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskOrganizer.Desktop.Pages.Login
+namespace TaskOrganizer.Desktop.Pages.Signup
 {
-  class LoginVM : INotifyPropertyChanged
+  class SignupPageVM
   {
     public event PropertyChangedEventHandler? PropertyChanged;
+
+    private string _username = string.Empty;
+    public string Username
+    {
+      get => _username;
+      set
+      {
+        _username = value;
+        OnPropertyChanged(value);
+      }
+    }
 
     private string _email = string.Empty;
     public string Email
@@ -30,6 +41,17 @@ namespace TaskOrganizer.Desktop.Pages.Login
       set
       {
         _password = value;
+        OnPropertyChanged(value);
+      }
+    }
+
+    private string _confirmPassword = string.Empty;
+    public string ConfirmPassword
+    {
+      get => _confirmPassword;
+      set
+      {
+        _confirmPassword = value;
         OnPropertyChanged(value);
       }
     }
