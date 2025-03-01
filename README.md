@@ -1,4 +1,4 @@
-# TaskManager
+# TaskOrganizer
 
 ## Backend (ASP.NET REST)
 1. **User Authentication**: Implement user registration and login functionality.
