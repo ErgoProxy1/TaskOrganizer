@@ -13,9 +13,4 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Entities\" />
-  </ItemGroup>
-
 </Project>
