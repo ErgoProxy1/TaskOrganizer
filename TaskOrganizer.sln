@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer.Desktop", "TaskManager.Desktop\TaskOrganizer.Desktop.csproj", "{F02535B1-A100-45F8-9C8A-FAC42691E56E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer.Desktop", "TaskOrganizer.Desktop\TaskOrganizer.Desktop.csproj", "{F02535B1-A100-45F8-9C8A-FAC42691E56E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer.API", "TaskManager.API\TaskOrganizer.API.csproj", "{40D931D1-FA40-4B98-9A9E-077580ACC106}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskOrganizer.API", "TaskOrganizer.API\TaskOrganizer.API.csproj", "{40D931D1-FA40-4B98-9A9E-077580ACC106}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
