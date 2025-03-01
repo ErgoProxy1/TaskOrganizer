@@ -11,12 +11,6 @@ namespace TaskOrganizer.Desktop;
 /// </summary>
 public partial class App : Application
 {
-  private HttpClient _httpClient;
-  //App(HttpClient httpClient)
-  //{
-  //  _httpClient = httpClient;
-  //}
-
   protected override void OnStartup(StartupEventArgs e)
   {
     base.OnStartup(e);

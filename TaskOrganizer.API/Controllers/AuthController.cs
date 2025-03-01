@@ -11,7 +11,7 @@ namespace TaskOrganizer.API.Controllers
   public class AuthController : ControllerBase
   {
     private FirebaseAuth _fbauth;
-    AuthController()
+    public AuthController()
     {
       _fbauth = FirebaseAuth.DefaultInstance;
     }

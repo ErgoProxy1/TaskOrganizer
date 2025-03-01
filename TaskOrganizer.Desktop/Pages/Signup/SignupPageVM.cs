@@ -5,12 +5,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using TaskOrganizer.Desktop.Interfaces;
 
 namespace TaskOrganizer.Desktop.Pages.Signup
 {
-  class SignupPageVM
+  class SignupPageVM : BaseViewModel
   {
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     private string _username = string.Empty;
     public string Username
@@ -54,11 +54,6 @@ namespace TaskOrganizer.Desktop.Pages.Signup
         _confirmPassword = value;
         OnPropertyChanged(value);
       }
-    }
-
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
   }
 }
