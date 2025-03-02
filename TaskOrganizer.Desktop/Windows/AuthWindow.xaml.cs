@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TaskOrganizer.Desktop.Pages.Login;
+using TaskOrganizer.Desktop.Pages.Signup;
 
 namespace TaskOrganizer.Desktop.Windows
 {
@@ -20,10 +21,10 @@ namespace TaskOrganizer.Desktop.Windows
     /// </summary>
   public partial class AuthWindow : Window
   {
-    public AuthWindow()
+    public AuthWindow(LoginPage loginPage)
     {
       InitializeComponent();
-      AuthFrame.Navigate(new LoginPage());
+      AuthFrame.Navigate(loginPage);
     }
   }
 }

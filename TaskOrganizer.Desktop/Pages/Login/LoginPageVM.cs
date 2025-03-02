@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using TaskOrganizer.API.Contracts;
 using TaskOrganizer.Desktop.Interfaces;
 
@@ -42,7 +43,11 @@ namespace TaskOrganizer.Desktop.Pages.Login
       }
     }
 
+    public event EventHandler? LoginSuccessful;
+    public event EventHandler? LoginFailed;
+
     public ICommand LoginCommand { get; }
+
 
     public LoginPageVM()
     {
@@ -70,21 +75,12 @@ namespace TaskOrganizer.Desktop.Pages.Login
           if (authResponse is not null)
           {
             string idToken = authResponse.IdToken;
-
-            Debug.WriteLine("User signed in successfully!");
-            Debug.WriteLine($"ID Token: {idToken}");
-
-            // Send ID token to backend
             await SendIdTokenToBackend(idToken); 
-          }
-          else
-          {
-            Debug.WriteLine("Auth token was null.");
           }
         }
         else
         {
-          Debug.WriteLine("Failed to sign in.");
+          this.LoginFailed?.Invoke(this, EventArgs.Empty);
         }
       }
     }
@@ -98,11 +94,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
 
         if (response.IsSuccessStatusCode)
         {
-          Debug.WriteLine("Token sent to backend successfully!");
-        }
-        else
-        {
-          Debug.WriteLine("Failed to send token to backend.");
+          this.LoginSuccessful?.Invoke(this, EventArgs.Empty); 
         }
       }
     }

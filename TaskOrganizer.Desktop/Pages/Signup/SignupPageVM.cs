@@ -9,7 +9,7 @@ using TaskOrganizer.Desktop.Interfaces;
 
 namespace TaskOrganizer.Desktop.Pages.Signup
 {
-  class SignupPageVM : BaseViewModel
+  public class SignupPageVM : BaseViewModel
   {
 
     private string _username = string.Empty;

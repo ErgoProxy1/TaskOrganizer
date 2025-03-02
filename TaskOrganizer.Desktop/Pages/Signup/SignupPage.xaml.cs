@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,15 +22,17 @@ namespace TaskOrganizer.Desktop.Pages.Signup
   /// </summary>
   public partial class SignupPage : Page
   {
-    public SignupPage()
+    IServiceProvider? _serviceProvider;
+    public SignupPage(IServiceProvider serviceProvider, SignupPageVM vm)
     {
       InitializeComponent();
-      DataContext = new SignupPageVM();
+      _serviceProvider = serviceProvider;
+      DataContext = vm;
     }
 
     private void NavigateToLogin_Click(object sender, RoutedEventArgs e)
     {
-      this.NavigationService.Navigate(new LoginPage());
+      this.NavigationService.Navigate(this._serviceProvider?.GetRequiredService<LoginPage>());
     }
   }
 }
