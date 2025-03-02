@@ -30,12 +30,18 @@ namespace TaskOrganizer.Desktop.Pages.Signup
       DataContext = vm;
 
       vm.SignUpSuccessful += OnSignUpSuccessful;
+      vm.SignUpFailed += OnSignUpFailed;
     }
 
     private void OnSignUpSuccessful(object? sender, string e)
     {
       MessageBox.Show($"User {e} created!");
       this.NavigationService.Navigate(this._serviceProvider?.GetRequiredService<LoginPage>());
+    }
+
+    private void OnSignUpFailed(object? sender, object? e)
+    {
+      MessageBox.Show($"Sign up failed!");
     }
 
     private void NavigateToLogin_Click(object sender, RoutedEventArgs e)

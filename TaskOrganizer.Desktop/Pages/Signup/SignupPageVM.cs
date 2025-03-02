@@ -62,6 +62,7 @@ namespace TaskOrganizer.Desktop.Pages.Signup
     }
 
     public event EventHandler<string>? SignUpSuccessful;
+    public event EventHandler? SignUpFailed;
 
     public ICommand CreateUserCommand { get; }
     public SignupPageVM() 
@@ -79,6 +80,10 @@ namespace TaskOrganizer.Desktop.Pages.Signup
         if (response.IsSuccessStatusCode)
         {
           SignUpSuccessful?.Invoke(this, Username);
+        } 
+        else
+        {
+          SignUpFailed?.Invoke(this, EventArgs.Empty);
         }
       }
     }
