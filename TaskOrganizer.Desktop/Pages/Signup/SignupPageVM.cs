@@ -43,6 +43,7 @@ namespace TaskOrganizer.Desktop.Pages.Signup
 
     public event EventHandler<string>? SignUpSuccessful;
     public event EventHandler? SignUpFailed;
+    public event EventHandler? SignUpStarted;
 
     public ICommand CreateUserCommand { get; }
     public SignupPageVM() 
@@ -56,6 +57,7 @@ namespace TaskOrganizer.Desktop.Pages.Signup
       var confirmPasswordBox = passwordBoxes?[1] is not null ? passwordBoxes[1] as PasswordBox : null;
       if (passwordBox is not null && confirmPasswordBox is not null && passwordBox?.Password == confirmPasswordBox?.Password)
       {
+        SignUpStarted?.Invoke(this, EventArgs.Empty);
         using (HttpClient client = new HttpClient())
         {
           SignupContract requestBody = new SignupContract { Email = Email, Password = passwordBox?.Password ?? string.Empty, Username = Username };

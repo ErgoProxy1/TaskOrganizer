@@ -29,18 +29,27 @@ namespace TaskOrganizer.Desktop.Pages.Signup
       _serviceProvider = serviceProvider;
       DataContext = vm;
 
+      vm.SignUpStarted += SignUpStarted;
       vm.SignUpSuccessful += OnSignUpSuccessful;
       vm.SignUpFailed += OnSignUpFailed;
     }
 
+    private void SignUpStarted(object? sender, object? e)
+    {
+      LoadingScreen.Visibility = Visibility.Visible;
+      SignupForm.Visibility = Visibility.Collapsed;
+    }
+
     private void OnSignUpSuccessful(object? sender, string e)
     {
-      MessageBox.Show($"User {e} created!");
       this.NavigationService.Navigate(this._serviceProvider?.GetRequiredService<LoginPage>());
+      MessageBox.Show($"User {e} created!");
     }
 
     private void OnSignUpFailed(object? sender, object? e)
     {
+      LoadingScreen.Visibility = Visibility.Collapsed;
+      SignupForm.Visibility = Visibility.Visible;
       MessageBox.Show($"Sign up failed!");
     }
 

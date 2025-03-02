@@ -19,26 +19,31 @@
         </Style>
         <helper:MultiBindingToArrayConverter x:Key="MultiBindingToArrayConverter"/>
     </Page.Resources>
-    <StackPanel Margin="10">
-        <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="24">Create your Account</TextBlock>
-        <Label>Username:</Label>
-        <TextBox Text="{Binding Username}"></TextBox>
-        <Label>Email:</Label>
-        <TextBox Text="{Binding Email}"></TextBox>
-        <Label>Password:</Label>
-        <PasswordBox x:Name="PasswordBox"></PasswordBox>
-        <Label>Confirm Password:</Label>
-        <PasswordBox x:Name="ConfirmPasswordBox"></PasswordBox>
-        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
+    <Grid>
+        <StackPanel x:Name="SignupForm" Margin="10">
+            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="24">Create your Account</TextBlock>
+            <Label>Username:</Label>
+            <TextBox Text="{Binding Username}"></TextBox>
+            <Label>Email:</Label>
+            <TextBox Text="{Binding Email}"></TextBox>
+            <Label>Password:</Label>
+            <PasswordBox x:Name="PasswordBox"></PasswordBox>
+            <Label>Confirm Password:</Label>
+            <PasswordBox x:Name="ConfirmPasswordBox"></PasswordBox>
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
             <Hyperlink Click="NavigateToLogin_Click">Login</Hyperlink>
-        </TextBlock>
-        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding CreateUserCommand}" Content="Signup">
-            <Button.CommandParameter>
-                <MultiBinding Converter="{StaticResource MultiBindingToArrayConverter}">
-                    <Binding ElementName="PasswordBox"/>
-                    <Binding ElementName="ConfirmPasswordBox"/>
-                </MultiBinding>
-            </Button.CommandParameter>
-        </Button>
-    </StackPanel>
+            </TextBlock>
+            <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding CreateUserCommand}" Content="Signup">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiBindingToArrayConverter}">
+                        <Binding ElementName="PasswordBox"/>
+                        <Binding ElementName="ConfirmPasswordBox"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+        <DockPanel x:Name="LoadingScreen" Visibility="Collapsed">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Creating user...</TextBlock>
+        </DockPanel>
+    </Grid>
 </Page>
