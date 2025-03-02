@@ -4,6 +4,7 @@ using System.Data;
 using System.Net.Http;
 using System.Windows;
 using TaskOrganizer.Desktop.Pages.Login;
+using TaskOrganizer.Desktop.Pages.Main;
 using TaskOrganizer.Desktop.Pages.Signup;
 using TaskOrganizer.Desktop.Services;
 using TaskOrganizer.Desktop.Windows;
@@ -36,12 +37,15 @@ public partial class App : Application
 
     // Windows
     services.AddTransient<AuthWindow>();
+    services.AddTransient<MainWindow>();
 
     // Pages
     services.AddTransient<LoginPage>();
     services.AddTransient<LoginPageVM>();
     services.AddTransient<SignupPage>();
     services.AddTransient<SignupPageVM>();
+    services.AddTransient<MainPage>();
+    services.AddTransient<MainPageVM>();
   }
 }
 

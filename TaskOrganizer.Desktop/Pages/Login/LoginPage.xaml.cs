@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TaskOrganizer.Desktop.Pages.Signup;
 using TaskOrganizer.Desktop.Services;
+using TaskOrganizer.Desktop.Windows;
 
 namespace TaskOrganizer.Desktop.Pages.Login
 {
@@ -23,8 +24,8 @@ namespace TaskOrganizer.Desktop.Pages.Login
   /// </summary>
   public partial class LoginPage : Page
   {
-    IServiceProvider _serviceProvider;
-    AuthService _authService;
+    private IServiceProvider _serviceProvider;
+    private AuthService _authService;
     public LoginPage(IServiceProvider serviceProvider, AuthService authService, LoginPageVM vm)
     {
       InitializeComponent();
@@ -45,12 +46,26 @@ namespace TaskOrganizer.Desktop.Pages.Login
 
     private void OnLoginSuccessful(object? sender, EventArgs e)
     {
-      MessageBox.Show($"Username: {_authService.CurrentUser?.Username}, Email: {_authService.CurrentUser?.Email} logged in!");
+      Window containerWindow = Window.GetWindow(this);
+      if(containerWindow is not null)
+      {
+        var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+        mainWindow.Show();
+        containerWindow.Close();
+      }
     }
 
     private void OnLoginFailed(object? sender, EventArgs e)
     {
+      LoadingScreen.Visibility = Visibility.Hidden;
+      LoginForm.Visibility = Visibility.Visible;
       MessageBox.Show("Login failed");
+    }
+
+    private void Login_Click(object sender, RoutedEventArgs e)
+    {
+      LoadingScreen.Visibility = Visibility.Visible;
+      LoginForm.Visibility = Visibility.Hidden;
     }
   }
 }

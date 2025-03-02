@@ -13,15 +13,20 @@
             <Setter Property="MinWidth" Value="100"/>
         </Style>
     </Page.Resources>
-    <StackPanel Margin="10">
-        <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="24">Welcome to Task Organizer!</TextBlock>
-        <Label>Email:</Label>
-        <TextBox Text="{Binding Email}"></TextBox>
-        <Label>Password:</Label>
-        <TextBox Text="{Binding Password}"></TextBox>
-        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
+    <Grid>
+        <StackPanel x:Name="LoginForm" Margin="10">
+            <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="24">Welcome to Task Organizer!</TextBlock>
+            <Label>Email:</Label>
+            <TextBox Text="{Binding Email}"></TextBox>
+            <Label>Password:</Label>
+            <TextBox Text="{Binding Password}"></TextBox>
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
             <Hyperlink Click="NavigateToSignup_Click">Signup</Hyperlink>
-        </TextBlock>
-        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding LoginCommand}">Login</Button>
-    </StackPanel>
+            </TextBlock>
+            <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding LoginCommand}" Click="Login_Click">Login</Button>
+        </StackPanel>
+        <DockPanel x:Name="LoadingScreen" Visibility="Hidden">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Logging in...</TextBlock>
+        </DockPanel>
+    </Grid>
 </Page>
