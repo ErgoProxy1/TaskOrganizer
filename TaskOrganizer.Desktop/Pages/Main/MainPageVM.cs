@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskOrganizer.Desktop.Interfaces;
+using TaskOrganizer.Desktop.Helper;
 using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Main

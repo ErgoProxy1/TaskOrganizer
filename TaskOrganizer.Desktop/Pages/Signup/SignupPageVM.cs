@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,10 +8,11 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TaskOrganizer.API.Contracts;
 using TaskOrganizer.Desktop.Helper;
-using TaskOrganizer.Desktop.Interfaces;
 
 namespace TaskOrganizer.Desktop.Pages.Signup
 {
@@ -39,52 +41,43 @@ namespace TaskOrganizer.Desktop.Pages.Signup
       }
     }
 
-    private string _password = string.Empty;
-    public string Password
-    {
-      get => _password;
-      set
-      {
-        _password = value;
-        OnPropertyChanged(value);
-      }
-    }
-
-    private string _confirmPassword = string.Empty;
-    public string ConfirmPassword
-    {
-      get => _confirmPassword;
-      set
-      {
-        _confirmPassword = value;
-        OnPropertyChanged(value);
-      }
-    }
-
     public event EventHandler<string>? SignUpSuccessful;
     public event EventHandler? SignUpFailed;
 
     public ICommand CreateUserCommand { get; }
     public SignupPageVM() 
     {
-      CreateUserCommand = new RelayCommand(async () => await CreateUserWithEmailAndPassword());
+      CreateUserCommand = new AsyncRelayCommand<object[]>(CreateUserWithEmailAndPassword);
     }
 
-    private async Task CreateUserWithEmailAndPassword()
+    private async Task CreateUserWithEmailAndPassword(object[]? passwordBoxes)
     {
-      using (HttpClient client = new HttpClient())
+      var passwordBox = passwordBoxes?[0] is not null ? passwordBoxes[0] as PasswordBox : null;
+      var confirmPasswordBox = passwordBoxes?[1] is not null ? passwordBoxes[1] as PasswordBox : null;
+      if (passwordBox is not null && confirmPasswordBox is not null && passwordBox?.Password == confirmPasswordBox?.Password)
       {
-        SignupContract requestBody = new SignupContract { Email = Email, Password = Password, Username = Username };
-        var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("http://localhost:5056/api/auth/create-user", content);
-        if (response.IsSuccessStatusCode)
+        using (HttpClient client = new HttpClient())
         {
-          SignUpSuccessful?.Invoke(this, Username);
+          SignupContract requestBody = new SignupContract { Email = Email, Password = passwordBox?.Password ?? string.Empty, Username = Username };
+          passwordBox?.Clear();
+          confirmPasswordBox?.Clear();
+          var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+          var response = await client.PostAsync("http://localhost:5056/api/auth/create-user", content);
+          if (response.IsSuccessStatusCode)
+          {
+            SignUpSuccessful?.Invoke(this, Username);
+          }
+          else
+          {
+            SignUpFailed?.Invoke(this, EventArgs.Empty);
+          }
         } 
-        else
-        {
-          SignUpFailed?.Invoke(this, EventArgs.Empty);
-        }
+      } 
+      else
+      {
+        MessageBox.Show("Passwords did not match!");
+        passwordBox?.Clear();
+        confirmPasswordBox?.Clear();
       }
     }
   }

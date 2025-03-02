@@ -21,7 +21,7 @@ namespace TaskOrganizer.API.Controllers
     }
 
     [HttpPost("verify-token")]
-    public async Task<IActionResult> VerifyToken([FromBody] LoginContract request)
+    public async Task<IActionResult> VerifyToken([FromBody] VerifyTokenContract request)
     {
       try
       {

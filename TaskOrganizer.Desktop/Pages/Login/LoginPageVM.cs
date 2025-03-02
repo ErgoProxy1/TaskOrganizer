@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,12 +9,12 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using TaskOrganizer.API.Contracts;
 using TaskOrganizer.API.Models;
 using TaskOrganizer.Desktop.Helper;
-using TaskOrganizer.Desktop.Interfaces;
 using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Login
@@ -34,17 +35,6 @@ namespace TaskOrganizer.Desktop.Pages.Login
       }
     }
 
-    private string _password = string.Empty;
-    public string Password
-    {
-      get => _password;
-      set
-      {
-        _password = value;
-        OnPropertyChanged(value);
-      }
-    }
-
     public event EventHandler? LoginSuccessful;
     public event EventHandler? LoginFailed;
 
@@ -54,19 +44,21 @@ namespace TaskOrganizer.Desktop.Pages.Login
     public LoginPageVM(AuthService authService)
     {
       _authService = authService;
-      LoginCommand = new RelayCommand(async () => await SignInWithEmailAndPassword());
+      LoginCommand = new AsyncRelayCommand<object>(SignInWithEmailAndPassword);
     }
 
-    private async Task SignInWithEmailAndPassword()
+    private async Task SignInWithEmailAndPassword(object? passwordBox)
     {
       using (HttpClient client = new HttpClient())
       {
-        var requestBody = new
+        var wPasswordBox = passwordBox as PasswordBox;
+        var requestBody = new LoginContract
         {
           email = Email,
-          password = Password,
+          password = wPasswordBox?.Password ?? string.Empty,
           returnSecureToken = true
         };
+        wPasswordBox?.Clear();
 
         var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
         var response = await client.PostAsync(SignInUrl, content);
@@ -74,7 +66,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
         if (response.IsSuccessStatusCode)
         {
           var responseBody = await response.Content.ReadAsStringAsync();
-          var authResponse = JsonConvert.DeserializeObject<LoginContract>(responseBody);
+          var authResponse = JsonConvert.DeserializeObject<VerifyTokenContract>(responseBody);
           if (authResponse is not null)
           {
             string idToken = authResponse.IdToken;
@@ -83,7 +75,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
         }
         else
         {
-          this.LoginFailed?.Invoke(this, EventArgs.Empty);
+          LoginFailed?.Invoke(this, EventArgs.Empty);
         }
       }
     }
@@ -92,19 +84,19 @@ namespace TaskOrganizer.Desktop.Pages.Login
     {
       using (HttpClient client = new HttpClient())
       {
-        var content = new StringContent(JsonConvert.SerializeObject(new LoginContract(){ IdToken = idToken }), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonConvert.SerializeObject(new VerifyTokenContract(){ IdToken = idToken }), Encoding.UTF8, "application/json");
         var response = await client.PostAsync("http://localhost:5056/api/auth/verify-token", content);
 
         if (response.IsSuccessStatusCode)
         {
           var responseBody = await response.Content.ReadAsStringAsync();
           var userResponse = JsonConvert.DeserializeObject<User>(responseBody);
-          this._authService.SetCurrentUser(userResponse);
-          this.LoginSuccessful?.Invoke(this, EventArgs.Empty);
+          _authService.SetCurrentUser(userResponse);
+          LoginSuccessful?.Invoke(this, EventArgs.Empty);
         }
         else
         {
-          this.LoginFailed?.Invoke(this, EventArgs.Empty);
+          LoginFailed?.Invoke(this, EventArgs.Empty);
         }
       }
     }

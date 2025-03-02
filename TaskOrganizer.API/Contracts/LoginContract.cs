@@ -2,6 +2,9 @@
 {
   public class LoginContract
   {
-    public string IdToken { get; set; } = string.Empty;
+    // Lowercase becase FireAuth expects it
+    public string email = string.Empty;
+    public string password = string.Empty;
+    public bool returnSecureToken;
   }
 }

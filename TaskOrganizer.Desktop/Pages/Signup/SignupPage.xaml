@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TaskOrganizer.Desktop.Pages.Signup"
+      xmlns:helper="clr-namespace:TaskOrganizer.Desktop.Helper"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="400"
       Title="Signup">
@@ -12,6 +13,11 @@
             <Setter Property="Margin" Value="5,0,0,0"/>
             <Setter Property="MinWidth" Value="100"/>
         </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin" Value="5,0,0,0"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
+        <helper:MultiBindingToArrayConverter x:Key="MultiBindingToArrayConverter"/>
     </Page.Resources>
     <StackPanel Margin="10">
         <TextBlock HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="24">Create your Account</TextBlock>
@@ -20,12 +26,19 @@
         <Label>Email:</Label>
         <TextBox Text="{Binding Email}"></TextBox>
         <Label>Password:</Label>
-        <TextBox Text="{Binding Password}"></TextBox>
+        <PasswordBox x:Name="PasswordBox"></PasswordBox>
         <Label>Confirm Password:</Label>
-        <TextBox Text="{Binding Password}"></TextBox>
+        <PasswordBox x:Name="ConfirmPasswordBox"></PasswordBox>
         <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
             <Hyperlink Click="NavigateToLogin_Click">Login</Hyperlink>
         </TextBlock>
-        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding CreateUserCommand}">Signup</Button>
+        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding CreateUserCommand}" Content="Signup">
+            <Button.CommandParameter>
+                <MultiBinding Converter="{StaticResource MultiBindingToArrayConverter}">
+                    <Binding ElementName="PasswordBox"/>
+                    <Binding ElementName="ConfirmPasswordBox"/>
+                </MultiBinding>
+            </Button.CommandParameter>
+        </Button>
     </StackPanel>
 </Page>
