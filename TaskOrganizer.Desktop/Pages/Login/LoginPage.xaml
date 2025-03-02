@@ -20,12 +20,12 @@
             <TextBox Text="{Binding Email}"></TextBox>
             <Label>Password:</Label>
             <TextBox Text="{Binding Password}"></TextBox>
-            <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
+            <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" >
             <Hyperlink Click="NavigateToSignup_Click">Signup</Hyperlink>
             </TextBlock>
             <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding LoginCommand}" Click="Login_Click">Login</Button>
         </StackPanel>
-        <DockPanel x:Name="LoadingScreen" Visibility="Hidden">
+        <DockPanel x:Name="LoadingScreen" Visibility="Collapsed">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Logging in...</TextBlock>
         </DockPanel>
     </Grid>

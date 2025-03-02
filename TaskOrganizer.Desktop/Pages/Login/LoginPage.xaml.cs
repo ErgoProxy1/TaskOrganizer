@@ -57,7 +57,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
 
     private void OnLoginFailed(object? sender, EventArgs e)
     {
-      LoadingScreen.Visibility = Visibility.Hidden;
+      LoadingScreen.Visibility = Visibility.Collapsed;
       LoginForm.Visibility = Visibility.Visible;
       MessageBox.Show("Login failed");
     }
@@ -65,7 +65,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
     private void Login_Click(object sender, RoutedEventArgs e)
     {
       LoadingScreen.Visibility = Visibility.Visible;
-      LoginForm.Visibility = Visibility.Hidden;
+      LoginForm.Visibility = Visibility.Collapsed;
     }
   }
 }

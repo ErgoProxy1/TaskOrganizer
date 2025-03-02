@@ -28,6 +28,14 @@ namespace TaskOrganizer.Desktop.Pages.Signup
       InitializeComponent();
       _serviceProvider = serviceProvider;
       DataContext = vm;
+
+      vm.SignUpSuccessful += OnSignUpSuccessful;
+    }
+
+    private void OnSignUpSuccessful(object? sender, string e)
+    {
+      MessageBox.Show($"User {e} created!");
+      this.NavigationService.Navigate(this._serviceProvider?.GetRequiredService<LoginPage>());
     }
 
     private void NavigateToLogin_Click(object sender, RoutedEventArgs e)

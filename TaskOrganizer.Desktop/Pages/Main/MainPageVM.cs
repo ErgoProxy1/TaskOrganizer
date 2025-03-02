@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskOrganizer.Desktop.Interfaces;
 using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Main
 {
-  public class MainPageVM
+  public class MainPageVM : BaseViewModel
   {
     private AuthService _auth;
     public MainPageVM(AuthService auth)

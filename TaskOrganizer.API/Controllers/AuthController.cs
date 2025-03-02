@@ -26,14 +26,27 @@ namespace TaskOrganizer.API.Controllers
       try
       {
         var decodedToken = await _fbauth.VerifyIdTokenAsync(request.IdToken);
-        var snapshot = await this._firestoreDb.Collection("users").WhereEqualTo("uid", decodedToken.Uid).GetSnapshotAsync();
-        string username = snapshot.Documents[0].GetValue<string>("username");
         decodedToken.Claims.TryGetValue("email", out object? emailClaim);
-        return Ok(new User { Uid = decodedToken.Uid, Email = emailClaim?.ToString() ?? string.Empty, Username = username});
+        decodedToken.Claims.TryGetValue("name", out object? nameClaim);
+        return Ok(new User { Uid = decodedToken.Uid, Email = emailClaim?.ToString() ?? string.Empty, Username = nameClaim?.ToString() ?? string.Empty});
       }
       catch (Exception ex)
       {
         return BadRequest(new {Error = ex.Message});
+      }
+    }
+
+    [HttpPost("create-user")]
+    public async Task<IActionResult> CreateUser([FromBody] SignupContract request) 
+    {
+      try
+      {
+        var user = await _fbauth.CreateUserAsync(new UserRecordArgs { Email = request.Email, Password = request.Password, DisplayName = request.Username });
+        return Ok();
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { Error = ex.Message });
       }
     }
   }

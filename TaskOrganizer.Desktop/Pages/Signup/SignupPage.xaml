@@ -26,6 +26,6 @@
         <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0">
             <Hyperlink Click="NavigateToLogin_Click">Login</Hyperlink>
         </TextBlock>
-        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0">Signup</Button>
+        <Button HorizontalAlignment="Right" Width="51" Margin="0,10,0,0" Command="{Binding CreateUserCommand}">Signup</Button>
     </StackPanel>
 </Page>

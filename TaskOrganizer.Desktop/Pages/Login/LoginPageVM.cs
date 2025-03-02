@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using TaskOrganizer.API.Contracts;
 using TaskOrganizer.API.Models;
+using TaskOrganizer.Desktop.Helper;
 using TaskOrganizer.Desktop.Interfaces;
 using TaskOrganizer.Desktop.Services;
 
@@ -101,6 +101,10 @@ namespace TaskOrganizer.Desktop.Pages.Login
           var userResponse = JsonConvert.DeserializeObject<User>(responseBody);
           this._authService.SetCurrentUser(userResponse);
           this.LoginSuccessful?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+          this.LoginFailed?.Invoke(this, EventArgs.Empty);
         }
       }
     }
