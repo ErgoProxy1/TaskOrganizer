@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TaskOrganizer.Desktop.Pages.Signup;
+using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Login
 {
@@ -22,17 +23,34 @@ namespace TaskOrganizer.Desktop.Pages.Login
   /// </summary>
   public partial class LoginPage : Page
   {
-    IServiceProvider? _serviceProvider;
-    public LoginPage(IServiceProvider serviceProvider, LoginPageVM vm)
+    IServiceProvider _serviceProvider;
+    AuthService _authService;
+    public LoginPage(IServiceProvider serviceProvider, AuthService authService, LoginPageVM vm)
     {
       InitializeComponent();
+
       _serviceProvider = serviceProvider;
+      _authService = authService;
+
       DataContext = vm;
+
+      vm.LoginSuccessful += OnLoginSuccessful;
+      vm.LoginFailed += OnLoginFailed;
     }
 
     private void NavigateToSignup_Click(object sender, RoutedEventArgs e)
     {
       this.NavigationService.Navigate(_serviceProvider?.GetRequiredService<SignupPage>());
+    }
+
+    private void OnLoginSuccessful(object? sender, EventArgs e)
+    {
+      MessageBox.Show($"Username: {_authService.CurrentUser?.Username}, Email: {_authService.CurrentUser?.Email} logged in!");
+    }
+
+    private void OnLoginFailed(object? sender, EventArgs e)
+    {
+      MessageBox.Show("Login failed");
     }
   }
 }

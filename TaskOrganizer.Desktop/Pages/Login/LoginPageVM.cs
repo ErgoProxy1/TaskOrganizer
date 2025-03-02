@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using TaskOrganizer.API.Contracts;
+using TaskOrganizer.API.Models;
 using TaskOrganizer.Desktop.Interfaces;
+using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Login
 {
@@ -48,9 +50,10 @@ namespace TaskOrganizer.Desktop.Pages.Login
 
     public ICommand LoginCommand { get; }
 
-
-    public LoginPageVM()
+    private AuthService _authService;
+    public LoginPageVM(AuthService authService)
     {
+      _authService = authService;
       LoginCommand = new RelayCommand(async () => await SignInWithEmailAndPassword());
     }
 
@@ -94,7 +97,10 @@ namespace TaskOrganizer.Desktop.Pages.Login
 
         if (response.IsSuccessStatusCode)
         {
-          this.LoginSuccessful?.Invoke(this, EventArgs.Empty); 
+          var responseBody = await response.Content.ReadAsStringAsync();
+          var userResponse = JsonConvert.DeserializeObject<User>(responseBody);
+          this._authService.SetCurrentUser(userResponse);
+          this.LoginSuccessful?.Invoke(this, EventArgs.Empty);
         }
       }
     }

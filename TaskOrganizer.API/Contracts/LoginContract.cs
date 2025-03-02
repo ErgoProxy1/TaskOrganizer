@@ -3,6 +3,5 @@
   public class LoginContract
   {
     public string IdToken { get; set; } = string.Empty;
-
   }
 }

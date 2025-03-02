@@ -7,13 +7,16 @@ using TaskOrganizer.API.Models;
 
 namespace TaskOrganizer.Desktop.Services
 {
-  class AuthService
+  public class AuthService
   {
     public User? CurrentUser { get; private set; }
 
-    public void SetCurrentUser(User user)
+    public void SetCurrentUser(User? user)
     {
-      CurrentUser = user;
+      if (user is not null)
+      {
+        CurrentUser = user; 
+      }
     }
   }
 }

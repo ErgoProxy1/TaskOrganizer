@@ -1,8 +1,10 @@
 ﻿using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2.Requests;
+using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskOrganizer.API.Contracts;
+using TaskOrganizer.API.Models;
 
 namespace TaskOrganizer.API.Controllers
 {
@@ -11,9 +13,11 @@ namespace TaskOrganizer.API.Controllers
   public class AuthController : ControllerBase
   {
     private FirebaseAuth _fbauth;
-    public AuthController()
+    private FirestoreDb _firestoreDb;
+    public AuthController(FirestoreDb firestoreDb)
     {
       _fbauth = FirebaseAuth.DefaultInstance;
+      _firestoreDb = firestoreDb;
     }
 
     [HttpPost("verify-token")]
@@ -22,7 +26,10 @@ namespace TaskOrganizer.API.Controllers
       try
       {
         var decodedToken = await _fbauth.VerifyIdTokenAsync(request.IdToken);
-        return Ok(new LoginResponseContract { Uid = decodedToken.Uid });
+        var snapshot = await this._firestoreDb.Collection("users").WhereEqualTo("uid", decodedToken.Uid).GetSnapshotAsync();
+        string username = snapshot.Documents[0].GetValue<string>("username");
+        decodedToken.Claims.TryGetValue("email", out object? emailClaim);
+        return Ok(new User { Uid = decodedToken.Uid, Email = emailClaim?.ToString() ?? string.Empty, Username = username});
       }
       catch (Exception ex)
       {
