@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaskOrganizer.API.Models
+namespace TaskOrganizer.Desktop.Models
 {
   public class User
   {

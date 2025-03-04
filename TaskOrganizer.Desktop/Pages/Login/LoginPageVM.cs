@@ -13,8 +13,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using TaskOrganizer.API.Contracts;
-using TaskOrganizer.API.Models;
 using TaskOrganizer.Desktop.Helper;
+using TaskOrganizer.Desktop.Models;
 using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Login

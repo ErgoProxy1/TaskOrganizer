@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskOrganizer.API.Models;
+using TaskOrganizer.Desktop.Models;
 
 namespace TaskOrganizer.Desktop.Services
 {
