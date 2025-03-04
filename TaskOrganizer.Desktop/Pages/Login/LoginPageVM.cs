@@ -90,7 +90,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
         if (response.IsSuccessStatusCode)
         {
           var responseBody = await response.Content.ReadAsStringAsync();
-          var userResponse = JsonConvert.DeserializeObject<User>(responseBody);
+          var userResponse = JsonConvert.DeserializeObject<UserModel>(responseBody);
           _authService.SetCurrentUser(userResponse);
           LoginSuccessful?.Invoke(this, EventArgs.Empty);
         }
