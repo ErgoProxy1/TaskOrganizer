@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using TaskOrganizer.API.Contracts;
 using TaskOrganizer.Desktop.Helper;
-using TaskOrganizer.Desktop.Models;
+using TaskOrganizer.API.Models;
 using TaskOrganizer.Desktop.Services;
 
 namespace TaskOrganizer.Desktop.Pages.Login
@@ -52,7 +52,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
       using (HttpClient client = new HttpClient())
       {
         var wPasswordBox = passwordBox as PasswordBox;
-        var requestBody = new LoginContract
+        var requestBody = new // This is a standardized object expected by firebase auth
         {
           email = Email,
           password = wPasswordBox?.Password ?? string.Empty,
@@ -66,7 +66,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
         if (response.IsSuccessStatusCode)
         {
           var responseBody = await response.Content.ReadAsStringAsync();
-          var authResponse = JsonConvert.DeserializeObject<VerifyTokenContract>(responseBody);
+          var authResponse = JsonConvert.DeserializeObject<VerifyTokenRequest>(responseBody);
           if (authResponse is not null)
           {
             string idToken = authResponse.IdToken;
@@ -84,7 +84,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
     {
       using (HttpClient client = new HttpClient())
       {
-        var content = new StringContent(JsonConvert.SerializeObject(new VerifyTokenContract(){ IdToken = idToken }), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonConvert.SerializeObject(new VerifyTokenRequest(){ IdToken = idToken }), Encoding.UTF8, "application/json");
         var response = await client.PostAsync("http://localhost:5056/api/auth/verify-token", content);
 
         if (response.IsSuccessStatusCode)

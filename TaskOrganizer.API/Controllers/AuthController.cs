@@ -20,7 +20,7 @@ namespace TaskOrganizer.API.Controllers
     }
 
     [HttpPost("verify-token")]
-    public async Task<IActionResult> VerifyToken([FromBody] VerifyTokenContract request)
+    public async Task<IActionResult> VerifyToken([FromBody] VerifyTokenRequest request)
     {
       try
       {
@@ -36,7 +36,7 @@ namespace TaskOrganizer.API.Controllers
     }
 
     [HttpPost("create-user")]
-    public async Task<IActionResult> CreateUser([FromBody] SignupContract request) 
+    public async Task<IActionResult> CreateUser([FromBody] SignupRequest request) 
     {
       try
       {

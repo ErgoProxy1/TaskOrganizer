@@ -60,7 +60,7 @@ namespace TaskOrganizer.Desktop.Pages.Signup
         SignUpStarted?.Invoke(this, EventArgs.Empty);
         using (HttpClient client = new HttpClient())
         {
-          SignupContract requestBody = new SignupContract { Email = Email, Password = passwordBox?.Password ?? string.Empty, Username = Username };
+          SignupRequest requestBody = new SignupRequest { Email = Email, Password = passwordBox?.Password ?? string.Empty, Username = Username };
           passwordBox?.Clear();
           confirmPasswordBox?.Clear();
           var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");

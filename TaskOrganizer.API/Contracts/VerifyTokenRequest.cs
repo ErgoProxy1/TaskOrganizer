@@ -1,6 +1,6 @@
 ﻿namespace TaskOrganizer.API.Contracts
 {
-  public class VerifyTokenContract
+  public class VerifyTokenRequest
   {
     public string IdToken { get; set; } = string.Empty;
   }
