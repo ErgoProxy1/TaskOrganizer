@@ -4,6 +4,7 @@ using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskOrganizer.API.Contracts;
+using TaskOrganizer.API.Models;
 
 namespace TaskOrganizer.API.Controllers
 {
@@ -27,7 +28,7 @@ namespace TaskOrganizer.API.Controllers
         var decodedToken = await _fbauth.VerifyIdTokenAsync(request.IdToken);
         decodedToken.Claims.TryGetValue("email", out object? emailClaim);
         decodedToken.Claims.TryGetValue("name", out object? nameClaim);
-        return Ok(new { Uid = decodedToken?.Uid ?? string.Empty, Email = emailClaim?.ToString() ?? string.Empty, Username = nameClaim?.ToString() ?? string.Empty});
+        return Ok(new User { Uid = decodedToken?.Uid ?? string.Empty, Email = emailClaim?.ToString() ?? string.Empty, Username = nameClaim?.ToString() ?? string.Empty});
       }
       catch (Exception ex)
       {
