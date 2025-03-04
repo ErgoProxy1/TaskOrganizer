@@ -3,7 +3,7 @@ Side project I got started on in Feb 2025, just to build a simple task organizat
 
 The plan is:
 ## Backend (ASP.NET REST)
-1. **User Authentication**: Implement user registration and login functionality. [**Done, UI will be cleaned up later**]
+1. **User Authentication**: Implement user registration and login functionality. [**Done, UI will be cleaned up later, look into storing JWT**]
 2. **Task CRUD Operations**: Create, Read, Update, and Delete tasks.
 3. **Task Assignment**: Allow users to assign tasks to different users.
 4. **Task Status Tracking**: Track the status of tasks (e.g., To Do, In Progress, Done).
