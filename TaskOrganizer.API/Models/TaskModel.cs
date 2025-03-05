@@ -5,6 +5,7 @@ namespace TaskOrganizer.API.Models
   [FirestoreData]
   public class TaskModel
   {
+    public required string TaskId { get; init; }
     [FirestoreProperty]
     public required string Title { get; set; }
     [FirestoreProperty]
@@ -18,9 +19,9 @@ namespace TaskOrganizer.API.Models
     [FirestoreProperty]
     public string Priority { get; set; } = string.Empty;
     [FirestoreProperty]
-    public DateTime DueDate { get; set; }
+    public DateTime? DueDate { get; set; } = null;
     [FirestoreProperty]
-    public DateTime Reminder { get; set; }
+    public DateTime? Reminder { get; set; } = null;
     [FirestoreProperty]
     public required DateTime CreatedDate { get; init; }
     [FirestoreProperty]
