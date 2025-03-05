@@ -85,7 +85,6 @@ namespace TaskOrganizer.API.Controllers
         }
         TaskModel createdTask = documentSnapshot.ConvertTo<TaskModel>();
         createdTask.TaskId = documentSnapshot.Id;
-        // TODO sub-collections
         return Ok(createdTask);
       }
       catch (Exception ex)
