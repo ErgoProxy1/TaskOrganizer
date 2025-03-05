@@ -118,9 +118,23 @@ namespace TaskOrganizer.API.Controllers
     }
 
     // DELETE api/tasks/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
+    [HttpDelete("{taskId}")]
+    public async Task<IActionResult> Delete(string taskId)
     {
+      try
+      {
+        var docRef = _firestoreDb.Collection("tasks").Document(taskId);
+        if(!(await docRef.GetSnapshotAsync()).Exists)
+        {
+          return StatusCode(500, new { Error = "Task Delete Failed as a Task with this ID does not exist" });
+        }
+        await docRef.DeleteAsync();
+        return Ok(taskId);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { Error = ex.Message });
+      }
     }
   }
 }
