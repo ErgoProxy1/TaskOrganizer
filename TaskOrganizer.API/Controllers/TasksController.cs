@@ -1,5 +1,6 @@
 ﻿using FirebaseAdmin.Auth;
 using Google.Cloud.Firestore;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TaskOrganizer.API.Models;
@@ -62,7 +63,7 @@ namespace TaskOrganizer.API.Controllers
           }
           return NotFound(new { Error = "Resource could not be found" });
         }
-        return BadRequest(new { Error = "Task ID was null or invalid." });
+        return StatusCode(500, new { Error = "Task ID was null or invalid" });
       }
       catch (Exception ex)
       {
@@ -72,8 +73,25 @@ namespace TaskOrganizer.API.Controllers
 
     // POST api/tasks
     [HttpPost]
-    public void Post([FromBody] string value)
+    public async Task<IActionResult> Post([FromBody] TaskModel task)
     {
+      try
+      {
+        var documentRef = await _firestoreDb.Collection("tasks").AddAsync(task);
+        var documentSnapshot = await documentRef.GetSnapshotAsync();
+        if (!documentSnapshot.Exists)
+        {
+          return StatusCode(500, new { Error = "Task Creation Failed" });
+        }
+        TaskModel createdTask = documentSnapshot.ConvertTo<TaskModel>();
+        createdTask.TaskId = documentSnapshot.Id;
+        // TODO sub-collections
+        return Ok();
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { Error = ex.Message });
+      }
     }
 
     // PUT api/tasks/5
