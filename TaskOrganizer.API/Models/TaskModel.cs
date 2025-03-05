@@ -5,7 +5,7 @@ namespace TaskOrganizer.API.Models
   [FirestoreData]
   public class TaskModel
   {
-    public string? TaskId { get; set; } = string.Empty;
+    public string Id { get; set; } = string.Empty;
     [FirestoreProperty]
     public required string Title { get; set; }
     [FirestoreProperty]

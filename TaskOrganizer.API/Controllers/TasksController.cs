@@ -13,11 +13,9 @@ namespace TaskOrganizer.API.Controllers
   [ApiController]
   public class TasksController : ControllerBase
   {
-    private FirebaseAuth _fbauth;
     private FirestoreDb _firestoreDb;
     public TasksController(FirestoreDb firestoreDb)
     {
-      _fbauth = FirebaseAuth.DefaultInstance;
       _firestoreDb = firestoreDb;
     }
 
@@ -29,12 +27,12 @@ namespace TaskOrganizer.API.Controllers
       {
         var snapshot = await _firestoreDb.Collection("tasks").GetSnapshotAsync();
         List<TaskModel> tasks = new List<TaskModel>();
-        foreach (DocumentSnapshot document in snapshot.Documents)
+        foreach (DocumentSnapshot taskDocument in snapshot.Documents)
         {
-          if(document.Exists)
+          if(taskDocument.Exists)
           {
-            TaskModel currentTask = document.ConvertTo<TaskModel>();
-            currentTask.TaskId = document.Id;
+            TaskModel currentTask = taskDocument.ConvertTo<TaskModel>();
+            currentTask.Id = taskDocument.Id;
             tasks.Add(currentTask);
           }
         }
@@ -54,11 +52,11 @@ namespace TaskOrganizer.API.Controllers
       {
         if (taskId != null)
         {
-          var document = await _firestoreDb.Collection("tasks").Document(taskId).GetSnapshotAsync();
-          if (document.Exists)
+          var taskDocument = await _firestoreDb.Collection("tasks").Document(taskId).GetSnapshotAsync();
+          if (taskDocument.Exists)
           {
-            TaskModel task = document.ConvertTo<TaskModel>();
-            task.TaskId = document.Id;
+            TaskModel task = taskDocument.ConvertTo<TaskModel>();
+            task.Id = taskDocument.Id;
             return Ok(task);
           }
           return NotFound(new { Error = "Resource could not be found" });
@@ -78,13 +76,13 @@ namespace TaskOrganizer.API.Controllers
       try
       {
         var documentRef = await _firestoreDb.Collection("tasks").AddAsync(task);
-        var documentSnapshot = await documentRef.GetSnapshotAsync();
-        if (!documentSnapshot.Exists)
+        var taskDocument = await documentRef.GetSnapshotAsync();
+        if (!taskDocument.Exists)
         {
           return StatusCode(500, new { Error = "Task Creation Failed" });
         }
-        TaskModel createdTask = documentSnapshot.ConvertTo<TaskModel>();
-        createdTask.TaskId = documentSnapshot.Id;
+        TaskModel createdTask = taskDocument.ConvertTo<TaskModel>();
+        createdTask.Id = taskDocument.Id;
         return Ok(createdTask);
       }
       catch (Exception ex)
@@ -106,7 +104,7 @@ namespace TaskOrganizer.API.Controllers
           return StatusCode(500, new { Error = "Task Update Failed as a Task with this ID does not exist" });
         }
         await docRef.SetAsync(task);
-        task.TaskId = taskId;
+        task.Id = taskId;
         return Ok(task);
       }
       catch (Exception ex)
@@ -122,12 +120,12 @@ namespace TaskOrganizer.API.Controllers
     {
       try
       {
-        var docRef = _firestoreDb.Collection("tasks").Document(taskId);
-        if(!(await docRef.GetSnapshotAsync()).Exists)
+        var documentRef = _firestoreDb.Collection("tasks").Document(taskId);
+        if(!(await documentRef.GetSnapshotAsync()).Exists)
         {
           return StatusCode(500, new { Error = "Task Delete Failed as a Task with this ID does not exist" });
         }
-        await docRef.DeleteAsync();
+        await documentRef.DeleteAsync();
         return Ok(taskId);
       }
       catch (Exception ex)

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FirebaseAdmin.Auth;
+using Google.Cloud.Firestore;
+using Microsoft.AspNetCore.Mvc;
+using TaskOrganizer.API.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,13 +11,31 @@ namespace TaskOrganizer.API.Controllers
   [ApiController]
   public class CommentsController : ControllerBase
   {
+    private FirestoreDb _firestoreDb;
+    public CommentsController(FirestoreDb firestoreDb)
+    {
+      _firestoreDb = firestoreDb;
+    }
+
+
     // GET: api/tasks/5/comments
     [HttpGet]
     public async Task<IActionResult> Get([FromRoute] string taskId)
     {
       try
       {
-        throw new NotImplementedException();
+        var snapshot = await _firestoreDb.Collection("tasks").Document(taskId).Collection("comments").GetSnapshotAsync();
+        List<CommentModel> comments = new List<CommentModel>();
+        foreach(var commentDocument in snapshot.Documents)
+        {
+          if(commentDocument.Exists)
+          {
+            CommentModel comment = commentDocument.ConvertTo<CommentModel>();
+            comment.Id = commentDocument.Id;
+            comments.Add(comment);
+          }
+        }
+        return Ok(comments);
       }
       catch (Exception ex)
       {
