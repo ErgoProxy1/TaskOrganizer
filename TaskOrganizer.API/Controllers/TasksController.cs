@@ -86,7 +86,7 @@ namespace TaskOrganizer.API.Controllers
         TaskModel createdTask = documentSnapshot.ConvertTo<TaskModel>();
         createdTask.TaskId = documentSnapshot.Id;
         // TODO sub-collections
-        return Ok();
+        return Ok(createdTask);
       }
       catch (Exception ex)
       {
@@ -95,9 +95,26 @@ namespace TaskOrganizer.API.Controllers
     }
 
     // PUT api/tasks/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    [HttpPut("{taskId}")]
+    public async Task<IActionResult> Put(string taskId, [FromBody] TaskModel task)
     {
+      try
+      {
+        var docRef = _firestoreDb.Collection("tasks").Document(taskId);
+        var documentSnapshot = await docRef.GetSnapshotAsync();
+        if (!documentSnapshot.Exists)
+        {
+          return StatusCode(500, new { Error = "Task Update Failed as a Task with this ID does not exist" });
+        }
+        await docRef.SetAsync(task);
+        task.TaskId = taskId;
+        return Ok(task);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { Error = ex.Message });
+      }
+
     }
 
     // DELETE api/tasks/5
