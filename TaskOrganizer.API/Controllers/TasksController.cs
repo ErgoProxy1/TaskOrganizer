@@ -75,8 +75,8 @@ namespace TaskOrganizer.API.Controllers
     {
       try
       {
-        var documentRef = await _firestoreDb.Collection("tasks").AddAsync(task);
-        var taskDocument = await documentRef.GetSnapshotAsync();
+        var docRef = await _firestoreDb.Collection("tasks").AddAsync(task);
+        var taskDocument = await docRef.GetSnapshotAsync();
         if (!taskDocument.Exists)
         {
           return StatusCode(500, new { Error = "Task Creation Failed" });
@@ -98,8 +98,8 @@ namespace TaskOrganizer.API.Controllers
       try
       {
         var docRef = _firestoreDb.Collection("tasks").Document(taskId);
-        var documentSnapshot = await docRef.GetSnapshotAsync();
-        if (!documentSnapshot.Exists)
+        var taskDocument = await docRef.GetSnapshotAsync();
+        if (!taskDocument.Exists)
         {
           return StatusCode(500, new { Error = "Task Update Failed as a Task with this ID does not exist" });
         }
@@ -120,12 +120,12 @@ namespace TaskOrganizer.API.Controllers
     {
       try
       {
-        var documentRef = _firestoreDb.Collection("tasks").Document(taskId);
-        if(!(await documentRef.GetSnapshotAsync()).Exists)
+        var docRef = _firestoreDb.Collection("tasks").Document(taskId);
+        if(!(await docRef.GetSnapshotAsync()).Exists)
         {
           return StatusCode(500, new { Error = "Task Delete Failed as a Task with this ID does not exist" });
         }
-        await documentRef.DeleteAsync();
+        await docRef.DeleteAsync();
         return Ok(taskId);
       }
       catch (Exception ex)
