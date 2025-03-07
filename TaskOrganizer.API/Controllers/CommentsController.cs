@@ -26,9 +26,9 @@ namespace TaskOrganizer.API.Controllers
       {
         var snapshot = await _firestoreDb.Collection("tasks").Document(taskId).Collection("comments").GetSnapshotAsync();
         List<CommentModel> comments = new List<CommentModel>();
-        foreach(var commentDocument in snapshot.Documents)
+        foreach (var commentDocument in snapshot.Documents)
         {
-          if(commentDocument.Exists)
+          if (commentDocument.Exists)
           {
             CommentModel comment = commentDocument.ConvertTo<CommentModel>();
             comment.Id = commentDocument.Id;
@@ -49,7 +49,19 @@ namespace TaskOrganizer.API.Controllers
     {
       try
       {
-        throw new NotImplementedException();
+        if (taskId != null && commentId != null)
+        {
+          var commentDocument = await _firestoreDb.Collection("tasks").Document(taskId).Collection("comments").Document(commentId).GetSnapshotAsync();
+          if (commentDocument.Exists)
+          {
+            CommentModel comment = commentDocument.ConvertTo<CommentModel>();
+            comment.Id = commentDocument.Id;
+            comment.TaskId = taskId;
+            return Ok(comment);
+          }
+          return NotFound();
+        }
+        return StatusCode(500, "Task or Comment Id was null or invalid");
       }
       catch (Exception ex)
       {
