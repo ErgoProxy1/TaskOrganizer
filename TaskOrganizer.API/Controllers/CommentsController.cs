@@ -104,7 +104,7 @@ namespace TaskOrganizer.API.Controllers
         var commentDocument = await docRef.GetSnapshotAsync();
         if (!commentDocument.Exists)
         {
-          return StatusCode(500, new { Error = "Task Update Failed as a Task with this ID does not exist" });
+          return StatusCode(500, new { Error = $"Comment update Failed as a Comment with ID {commentId} does not exist under Task {taskId}" });
         }
         await docRef.SetAsync(comment);
         comment.Id = commentId;
@@ -123,7 +123,13 @@ namespace TaskOrganizer.API.Controllers
     {
       try
       {
-        throw new NotImplementedException();
+        var docRef = _firestoreDb.Collection("tasks").Document(taskId).Collection("comments").Document(commentId);
+        if (!(await docRef.GetSnapshotAsync()).Exists)
+        {
+          return StatusCode(500, new { Error = $"Comment Delete Failed as a Comment with ID {commentId} does not exist under Task {taskId}" });
+        }
+        await docRef.DeleteAsync();
+        return Ok(taskId);
       }
       catch (Exception ex)
       {
