@@ -1,0 +1,24 @@
+<mat-card class="auth-container">
+    <mat-card-header>
+        <h2 class="title">Task Organizer</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="login-form">
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="email">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput type="password">
+            </mat-form-field>
+            <button mat-fab extended (click)="login()" type="button">Login</button>
+        </form>
+        <div class="or-group">
+            <mat-divider></mat-divider>
+            <div>or</div>
+            <mat-divider></mat-divider>
+        </div>
+        <button class="sign-up" mat-fab extended (click)="login()" type="button">Sign up</button>
+    </mat-card-content>
+</mat-card>

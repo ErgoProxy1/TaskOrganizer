@@ -1,1 +1,1 @@
-Services and singleton components used across the application.
+Services and singleton components used across the application. Also guards, innterceptors, models, etc.
