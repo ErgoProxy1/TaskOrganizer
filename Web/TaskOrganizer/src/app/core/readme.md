@@ -1,0 +1,1 @@
+Services and singleton components used across the application.
