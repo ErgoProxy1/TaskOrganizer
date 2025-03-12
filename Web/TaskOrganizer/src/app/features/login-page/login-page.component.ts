@@ -6,12 +6,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
-  selector: 'app-auth-page',
+  selector: 'app-login-page',
   imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDividerModule],
-  templateUrl: './auth-page.component.html',
-  styleUrl: './auth-page.component.scss'
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss'
 })
-export class AuthPageComponent {
+export class LoginPageComponent {
 
   protected login(): void {
     console.log("login")
