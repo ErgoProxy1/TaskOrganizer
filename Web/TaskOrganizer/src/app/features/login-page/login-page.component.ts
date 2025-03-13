@@ -1,17 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { take } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout'
+import { TuiAppearance, TuiButton, TuiError, TuiIcon, TuiNotification, TuiTextfield, TuiTitle } from '@taiga-ui/core';
+import { MatDividerModule } from '@angular/material/divider'
 
 @Component({
   selector: 'app-login-page',
-  imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDividerModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TuiCardLarge, TuiButton, TuiError, TuiIcon, TuiNotification, TuiTextfield, TuiTitle, TuiAppearance, TuiHeader, MatDividerModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,8 +20,6 @@ export class LoginPageComponent {
 
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
-
-  private snackBar = inject(MatSnackBar);
 
   protected loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
