@@ -29,9 +29,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
               }
             ],
             "styles": [
+              "@taiga-ui/core/styles/taiga-ui-theme.less",
+              "@taiga-ui/core/styles/taiga-ui-fonts.less",
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
@@ -54,7 +61,15 @@
               "outputHashing": "all"
             },
             "development": {
-              "optimization": false,
+              "optimization": {
+                "fonts": false,
+                "scripts": false,
+                "styles": {
+                  "inlineCritical": false,
+                  "minify": true,
+                  "removeSpecialComments": true
+                }
+              },
               "extractLicenses": false,
               "sourceMap": true
             }
@@ -89,9 +104,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"
               }
             ],
             "styles": [
+              "@taiga-ui/core/styles/taiga-ui-theme.less",
+              "@taiga-ui/core/styles/taiga-ui-fonts.less",
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
