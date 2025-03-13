@@ -40,9 +40,14 @@
     .login-form {
         display: flex;
         flex-direction: column;
+        gap: 0.5rem;
     }
 
     .sign-up {
         width: 100%;
+    }
+
+    .errors {
+
     }
 }
