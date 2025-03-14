@@ -50,6 +50,7 @@ export class LoginPageComponent {
   private finalizeSignIn(idToken: string) {
     this.auth.authenticateIdToken(idToken).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
+        //TODO
         console.log(response)
       },
       error: (error: AuthError) => {
