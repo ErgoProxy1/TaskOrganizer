@@ -1,1 +1,1 @@
-Reusable components, directives, and pipes
+Reusable components, directives, and pipes. Also helpers and utils.
