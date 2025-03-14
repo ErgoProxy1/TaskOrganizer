@@ -6,6 +6,19 @@ using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyAllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200");
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+            policy.AllowCredentials();
+        }
+    );
+});
+
 // Load User Secrets
 builder.Configuration.AddUserSecrets<Program>();
 
@@ -38,8 +51,9 @@ if (app.Environment.IsDevelopment())
   app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+// CORS
+app.UseCors("MyAllowSpecificOrigins");
+
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, take, throwError } from 'rxjs';
 import { AuthError, AuthFirebaseSignin } from '../models/auth.models';
+import { VerifyTokenRequest } from '../contracts/backend.contracts';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ export class AuthService {
 
   private readonly firebaseApiKey = "AIzaSyCWbHn1uBiby3RPHRKnvQHuXn4ld7SwAn0"; // Not a secret
   private readonly signInUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + this.firebaseApiKey;
+
+  private unknownError = new AuthError('Unknown error', 'shield-x');
   
   private http = inject(HttpClient);
 
@@ -24,7 +27,21 @@ export class AuthService {
         if(err.status === 400) {
           return throwError(() => new AuthError('Login error, please verify your credentials', 'circle-x'))
         }
-        return throwError(() => new AuthError('Unknown error', 'shield-x'));
+        return throwError(() => this.unknownError);
+      })
+    )
+  }
+
+  public authenticateIdToken(idToken: string) {
+    let headers = {headers: new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'})};
+    let body: VerifyTokenRequest = {IdToken: idToken};
+    return this.http.post("https://localhost:5056/api/auth/verify-token", JSON.stringify(body), headers).pipe(
+      take(1),
+      catchError((err: HttpErrorResponse) => {
+        if([0, 400].includes(err.status)) {
+          return throwError(() => new AuthError('Server issue, please try again later', 'cloud-alert'))
+        }
+        return throwError(() => this.unknownError);
       })
     )
   }

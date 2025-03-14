@@ -1,6 +1,7 @@
 ﻿using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2.Requests;
 using Google.Cloud.Firestore;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskOrganizer.API.Contracts;
@@ -10,6 +11,7 @@ namespace TaskOrganizer.API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [EnableCors("MyPolicy")]
   public class AuthController : ControllerBase
   {
     private FirebaseAuth _fbauth;
@@ -20,6 +22,7 @@ namespace TaskOrganizer.API.Controllers
       _firestoreDb = firestoreDb;
     }
 
+    [EnableCors("MyAllowSpecificOrigins")]
     [HttpPost("verify-token")]
     public async Task<IActionResult> VerifyToken([FromBody] VerifyTokenRequest request)
     {

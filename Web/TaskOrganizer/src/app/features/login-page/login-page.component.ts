@@ -33,8 +33,24 @@ export class LoginPageComponent {
       returnSecureToken: true
     }
     this.auth.signIn(requestBody).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      next: (response: any) => {
+        if (response?.idToken) {
+          this.finalizeSignIn(response.idToken)
+        }
+        else {
+          this.tuiAlert.open("Token error, please try again later", {autoClose: 3000, icon: 'shield-x', appearance: 'negative'})
+        }
+      },
+      error: (error: AuthError) => {
+        this.tuiAlert.open(error.message, {autoClose: 3000, icon: error.icon, appearance: 'negative'}).pipe(take(1), takeUntilDestroyed(this.destroyRef)).subscribe();
+      }
+    });
+  }
+
+  private finalizeSignIn(idToken: string) {
+    this.auth.authenticateIdToken(idToken).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
-        console.log(response);
+        console.log(response)
       },
       error: (error: AuthError) => {
         this.tuiAlert.open(error.message, {autoClose: 3000, icon: error.icon, appearance: 'negative'}).pipe(take(1), takeUntilDestroyed(this.destroyRef)).subscribe();

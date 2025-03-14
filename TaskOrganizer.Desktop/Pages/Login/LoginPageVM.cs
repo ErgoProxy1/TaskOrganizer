@@ -85,7 +85,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
       using (HttpClient client = new HttpClient())
       {
         var content = new StringContent(JsonConvert.SerializeObject(new VerifyTokenRequest(){ IdToken = idToken }), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("http://localhost:5056/api/auth/verify-token", content);
+        var response = await client.PostAsync("https://localhost:5056/api/auth/verify-token", content);
 
         if (response.IsSuccessStatusCode)
         {

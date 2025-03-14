@@ -64,7 +64,7 @@ namespace TaskOrganizer.Desktop.Pages.Signup
           passwordBox?.Clear();
           confirmPasswordBox?.Clear();
           var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-          var response = await client.PostAsync("http://localhost:5056/api/auth/create-user", content);
+          var response = await client.PostAsync("https://localhost:5056/api/auth/create-user", content);
           if (response.IsSuccessStatusCode)
           {
             SignUpSuccessful?.Invoke(this, Username);
