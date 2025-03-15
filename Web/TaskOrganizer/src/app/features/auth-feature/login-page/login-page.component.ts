@@ -7,6 +7,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthError, AuthFirebaseSignin } from '../../../core/models/auth.models';
+import { UserModel } from '../../../core/models/api.models';
 
 @Component({
   selector: 'app-login-page',
@@ -59,9 +60,8 @@ export class LoginPageComponent {
       .authenticateIdToken(idToken)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          //TODO
-          console.log(response);
+        next: (response: Object) => {
+          this.auth.setUser(response as UserModel);
         },
         error: (error: AuthError) => {
           this.tuiAlert

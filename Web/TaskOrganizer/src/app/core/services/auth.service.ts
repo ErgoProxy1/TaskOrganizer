@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, take, throwError } from 'rxjs';
 import { AuthError, AuthFirebaseSignin } from '../models/auth.models';
 import { VerifyTokenRequest } from '../contracts/backend.contracts';
+import { UserModel } from '../models/api.models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,15 @@ export class AuthService {
   private unknownError = new AuthError('Unknown error', 'shield-x');
 
   private http = inject(HttpClient);
+
+  private _user?: UserModel;
+  public get user() {
+    return this._user;
+  }
+
+  setUser(user: UserModel) {
+    this._user = user;
+  }
 
   public signIn(requestBody: AuthFirebaseSignin): Observable<Object> {
     let headers = { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }) };
