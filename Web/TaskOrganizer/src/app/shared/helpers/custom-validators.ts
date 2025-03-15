@@ -6,6 +6,7 @@ export class CustomValidators extends Validators {
     const confirmPassword = control.get('confirmPassword')?.value;
 
     if (password !== confirmPassword) {
+      control.get('confirmPassword')?.setErrors({ passwordMatch: true });
       return { passwordMatch: true };
     }
     return null;
