@@ -82,7 +82,8 @@
               "buildTarget": "task-organizer:build:production"
             },
             "development": {
-              "buildTarget": "task-organizer:build:development"
+              "buildTarget": "task-organizer:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

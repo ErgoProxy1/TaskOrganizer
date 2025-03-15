@@ -34,7 +34,7 @@ export class AuthService {
   public authenticateIdToken(idToken: string) {
     let headers = { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }) };
     let body: VerifyTokenRequest = { IdToken: idToken };
-    return this.http.post('https://localhost:5056/api/auth/verify-token', JSON.stringify(body), headers).pipe(
+    return this.http.post('api/auth/verify-token', JSON.stringify(body), headers).pipe(
       take(1),
       catchError((err: HttpErrorResponse) => {
         if ([0, 400].includes(err.status)) {
