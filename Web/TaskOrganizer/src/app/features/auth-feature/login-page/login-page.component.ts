@@ -8,6 +8,7 @@ import { take } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthError, AuthFirebaseSignin } from '../../../core/models/auth.models';
 import { UserModel } from '../../../core/models/api.models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -23,6 +24,9 @@ export class LoginPageComponent {
   private auth = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private tuiAlert = inject(TuiAlertService);
+  private router = inject(Router);
+
+  protected loading = signal(false);
 
   protected loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -30,6 +34,10 @@ export class LoginPageComponent {
   });
 
   protected submit(): void {
+    if (this.loading()) {
+      return;
+    }
+    this.loading.set(true);
     let requestBody: AuthFirebaseSignin = {
       email: this.loginForm.controls.email.value ?? '',
       password: this.loginForm.controls.password.value ?? '',
@@ -43,14 +51,11 @@ export class LoginPageComponent {
           if (response?.idToken) {
             this.finalizeSignIn(response.idToken);
           } else {
-            this.tuiAlert.open('Token error, please try again later', { autoClose: 3000, icon: 'shield-x', appearance: 'negative' });
+            this.showAlert(new AuthError('Token error, please try again later', 'shield-x'));
           }
         },
         error: (error: AuthError) => {
-          this.tuiAlert
-            .open(error.message, { autoClose: 3000, icon: error.icon, appearance: 'negative' })
-            .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-            .subscribe();
+          this.showAlert(error);
         },
       });
   }
@@ -62,13 +67,20 @@ export class LoginPageComponent {
       .subscribe({
         next: (response: Object) => {
           this.auth.setUser(response as UserModel);
+          this.loading.set(false);
+          this.router.navigate(['/tasks']);
         },
         error: (error: AuthError) => {
-          this.tuiAlert
-            .open(error.message, { autoClose: 3000, icon: error.icon, appearance: 'negative' })
-            .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-            .subscribe();
+          this.showAlert(error);
         },
       });
+  }
+
+  private showAlert(error: AuthError) {
+    this.loading.set(false);
+    this.tuiAlert
+      .open(error.message, { autoClose: 3000, icon: error.icon, appearance: 'negative' })
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 }
