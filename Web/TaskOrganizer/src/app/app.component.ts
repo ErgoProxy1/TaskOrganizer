@@ -1,6 +1,6 @@
 import { TuiRoot } from "@taiga-ui/core";
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { LoginPageComponent } from "./features/login-page/login-page.component";
+import { LoginPageComponent } from "./features/auth-feature/login-page/login-page.component";
 
 @Component({
   selector: 'app-root',
