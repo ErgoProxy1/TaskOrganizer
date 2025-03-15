@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm" (ngSubmit)="submit()">
+<form [formGroup]="loginForm" (ngSubmit)="submit()" tuiForm="m" class="login-container">
   @let errorsEmail = this.loginForm.controls.email.errors;
   @let errorsPassword = this.loginForm.controls.password.errors;
   <header tuiHeader class="w-full pb-4">
