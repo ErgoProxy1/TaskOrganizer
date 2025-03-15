@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiHeader } from '@taiga-ui/layout';
 import { TuiAlertService, TuiAppearance, TuiButton, TuiError, TuiTextfield, TuiTitle } from '@taiga-ui/core';
@@ -16,6 +16,8 @@ import { AuthError, AuthFirebaseSignin } from '../../../core/models/auth.models'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent {
+  public switchPage = output();
+
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private destroyRef = inject(DestroyRef);

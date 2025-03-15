@@ -1,10 +1,10 @@
 <div tuiAppearance="floating" tuiCardLarge class="auth-container">
   @switch (currentPage) {
     @case ('login') {
-      <app-login-page></app-login-page>
+      <app-login-page (switchPage)="currentPage = 'signup'"></app-login-page>
     }
     @case ('signup') {
-      <app-signup-page></app-signup-page>
+      <app-signup-page (switchPage)="currentPage = 'login'"></app-signup-page>
     }
   }
 </div>

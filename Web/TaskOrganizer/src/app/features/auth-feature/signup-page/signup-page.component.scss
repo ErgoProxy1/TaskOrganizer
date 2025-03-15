@@ -1,0 +1,40 @@
+:host {
+  .signup-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .or-group {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+    > div {
+      flex-grow: 0;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    > mat-divider {
+      flex-grow: 1;
+    }
+  }
+
+  .title {
+    text-align: center;
+    width: 100%;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

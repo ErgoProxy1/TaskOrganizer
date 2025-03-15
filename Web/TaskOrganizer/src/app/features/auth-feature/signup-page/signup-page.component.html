@@ -1,1 +1,62 @@
-<p>signup-page works!</p>
+<form [formGroup]="signupForm" (ngSubmit)="submit()" tuiForm="m" class="signup-container">
+  @let errorsUsername = this.signupForm.controls.username.errors;
+  @let errorsEmail = this.signupForm.controls.email.errors;
+  @let errorsPassword = this.signupForm.controls.password.errors;
+  @let errorsConfirmPassword = this.signupForm.controls.confirmPassword.errors;
+  <header tuiHeader class="w-full pb-4">
+    <h2 tuiTitle="m" class="title">Task Organizer</h2>
+  </header>
+  <div class="w-full pb-2">
+    <tui-textfield>
+      <label tuiLabel>Username</label>
+      <input tuiTextfield formControlName="username" />
+    </tui-textfield>
+    @if (this.signupForm.controls.username.touched) {
+      @if (errorsUsername?.['required']) {
+        <tui-error error="Please enter a username"></tui-error>
+      }
+    }
+  </div>
+  <div class="w-full pb-2">
+    <tui-textfield>
+      <label tuiLabel>Email</label>
+      <input tuiTextfield formControlName="email" />
+    </tui-textfield>
+    @if (this.signupForm.controls.email.touched) {
+      @if (errorsEmail?.['email']) {
+        <tui-error error="Please enter a valid email"></tui-error>
+      } @else if (errorsEmail?.['required']) {
+        <tui-error error="Please enter your email"></tui-error>
+      }
+    }
+  </div>
+  <div class="w-full pb-2">
+    <tui-textfield>
+      <label tuiLabel>Password</label>
+      <input tuiTextfield type="password" formControlName="password" />
+    </tui-textfield>
+    @if (this.signupForm.controls.password.touched) {
+      @if (errorsPassword?.['required']) {
+        <tui-error error="Please enter a valid password"></tui-error>
+      }
+    }
+  </div>
+  <div class="w-full pb-2">
+    <tui-textfield>
+      <label tuiLabel>Confirm Password</label>
+      <input tuiTextfield type="password" formControlName="confirmPassword" />
+    </tui-textfield>
+    @if (this.signupForm.controls.confirmPassword.touched) {
+      @if (errorsConfirmPassword?.['passwordMatch']) {
+        <tui-error error="Passwords do not match"></tui-error>
+      }
+    }
+  </div>
+  <button class="button" tuiButton type="submit" [disabled]="!signupForm.valid">Login</button>
+  <div class="or-group">
+    <mat-divider></mat-divider>
+    <div>or</div>
+    <mat-divider></mat-divider>
+  </div>
+  <button class="button" tuiButton type="button" (click)="switchPage.emit()">Already have an account ?</button>
+</form>

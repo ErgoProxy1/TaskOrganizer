@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LoginPageComponent } from '../login-page/login-page.component';
 import { SignupPageComponent } from '../signup-page/signup-page.component';
 import { TuiCardLarge } from '@taiga-ui/layout';
@@ -8,6 +8,7 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   imports: [LoginPageComponent, SignupPageComponent, TuiCardLarge],
   templateUrl: './auth-container.component.html',
   styleUrl: './auth-container.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthContainerComponent {
   protected currentPage: 'login' | 'signup' = 'login';
