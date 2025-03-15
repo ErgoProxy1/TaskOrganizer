@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   firebaseConfig: {
     apiKey: 'AIzaSyCWbHn1uBiby3RPHRKnvQHuXn4ld7SwAn0',
     authDomain: 'taskmanager-f9cd2.firebaseapp.com',

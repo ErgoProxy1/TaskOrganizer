@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
-import { AuthError, AuthFirebaseSignin } from '../../../core/models/auth.models';
+import { AuthError } from '../../../core/models/auth.models';
 import { UserModel } from '../../../core/models/api.models';
 import { Router } from '@angular/router';
 
@@ -38,37 +38,19 @@ export class LoginPageComponent {
       return;
     }
     this.loading.set(true);
-    let requestBody: AuthFirebaseSignin = {
-      email: this.loginForm.controls.email.value ?? '',
-      password: this.loginForm.controls.password.value ?? '',
-      returnSecureToken: true,
-    };
+    let email = this.loginForm.controls.email.value ?? '';
+    let password = this.loginForm.controls.password.value ?? '';
     this.auth
-      .signIn(requestBody)
+      .login(email, password)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: any) => {
-          if (response?.idToken) {
-            this.finalizeSignIn(response.idToken);
+        next: (user) => {
+          if (user) {
+            this.loading.set(false);
+            this.router.navigate(['/tasks']);
           } else {
             this.showAlert(new AuthError('Token error, please try again later', 'shield-x'));
           }
-        },
-        error: (error: AuthError) => {
-          this.showAlert(error);
-        },
-      });
-  }
-
-  private finalizeSignIn(idToken: string) {
-    this.auth
-      .authenticateIdToken(idToken)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response: Object) => {
-          this.auth.setUser(response as UserModel);
-          this.loading.set(false);
-          this.router.navigate(['/tasks']);
         },
         error: (error: AuthError) => {
           this.showAlert(error);

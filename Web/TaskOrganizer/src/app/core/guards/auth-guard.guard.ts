@@ -2,16 +2,22 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TuiAlert, TuiAlertService } from '@taiga-ui/core';
-import { take } from 'rxjs';
+import { map, take } from 'rxjs';
+import { Auth, authState } from '@angular/fire/auth';
 
-export const authGuard: CanActivateFn = (route, state) => {
-  const auth = inject(AuthService);
+export const noAuthGuard: CanActivateFn = (route, state) => {
+  const auth = inject(Auth);
   const router = inject(Router);
-  const tuiAlert = inject(TuiAlertService);
-  if (!auth.user) {
-    router.navigate(['']);
-    tuiAlert.open('Please login to view tasks!', { closeable: true, autoClose: 3000 }).pipe(take(1)).subscribe();
-    return false;
-  }
-  return true;
+
+  // Use the user signal or an observable to check auth state
+  return authState(auth).pipe(
+    map((user) => {
+      if (user) {
+        return true;
+      } else {
+        router.navigate(['']);
+        return false;
+      }
+    }),
+  );
 };

@@ -1,33 +1,29 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { catchError, Observable, take, throwError } from 'rxjs';
-import { AuthError, AuthFirebaseSignin } from '../models/auth.models';
-import { VerifyTokenRequest } from '../contracts/backend.contracts';
-import { UserModel } from '../models/api.models';
+import { inject, Injectable, signal } from '@angular/core';
+import { Observable, catchError, from, take, tap, throwError } from 'rxjs';
+import { AuthError } from '../models/auth.models';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Auth, User, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly firebaseApiKey = 'AIzaSyCWbHn1uBiby3RPHRKnvQHuXn4ld7SwAn0'; // Not a secret
-  private readonly signInUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + this.firebaseApiKey;
-
   private unknownError = new AuthError('Unknown error', 'shield-x');
 
-  private http = inject(HttpClient);
-
-  private _user?: UserModel;
-  public get user() {
-    return this._user;
+  private userSignal = signal<User | null>(null); // Signal to hold the user
+  public getUserSignal() {
+    return this.userSignal;
   }
 
-  setUser(user: UserModel) {
-    this._user = user;
+  private auth = inject(Auth);
+  private router = inject(Router);
+  constructor() {
+    this.auth.onAuthStateChanged((user) => this.userSignal.set(user));
   }
 
-  public signIn(requestBody: AuthFirebaseSignin): Observable<Object> {
-    let headers = { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }) };
-    return this.http.post(this.signInUrl, JSON.stringify(requestBody), headers).pipe(
+  login(email: string, password: string): Observable<User> {
+    return from(signInWithEmailAndPassword(this.auth, email, password).then((res) => res.user)).pipe(
       take(1),
       catchError((err: HttpErrorResponse) => {
         if (err.status === 0) {
@@ -41,17 +37,22 @@ export class AuthService {
     );
   }
 
-  public authenticateIdToken(idToken: string) {
-    let headers = { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }) };
-    let body: VerifyTokenRequest = { IdToken: idToken };
-    return this.http.post('api/auth/verify-token', JSON.stringify(body), headers).pipe(
+  getToken(): Observable<string> {
+    return from(this.auth.currentUser?.getIdToken() || Promise.resolve('')).pipe(
       take(1),
       catchError((err: HttpErrorResponse) => {
-        if ([0, 400].includes(err.status)) {
+        if ([0, 400, 500].includes(err.status)) {
           return throwError(() => new AuthError('Server issue, please try again later', 'cloud-alert'));
         }
         return throwError(() => this.unknownError);
       }),
+    );
+  }
+
+  logout(): Observable<void> {
+    return from(this.auth.signOut()).pipe(
+      take(1),
+      tap(() => this.router.navigate([''])),
     );
   }
 }

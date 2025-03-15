@@ -1,1 +1,2 @@
-<div>Hello {{ auth.user?.username }}!!!</div>
+<div>Hello {{ this.userSignal()?.displayName }}!!!</div>
+<button tuiButton (click)="logout()">logout</button>

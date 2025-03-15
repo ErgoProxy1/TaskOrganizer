@@ -1,14 +1,8 @@
 export class AuthError extends Error {
-    icon = '';
+  icon = '';
 
-    constructor(message:string, icon:string) {
-        super(message);
-        this.icon = icon;
-    }
-}
-
-export class AuthFirebaseSignin {
-    email = '';
-    password = '';
-    returnSecureToken = false;
+  constructor(message: string, icon: string) {
+    super(message);
+    this.icon = icon;
+  }
 }
