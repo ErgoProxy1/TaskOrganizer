@@ -113,7 +113,7 @@ namespace TaskOrganizer.API.Controllers
                 Guid parsedId;
                 if (projectId != null && Guid.TryParse(projectId, out parsedId))
                 {
-                    var project = await this._dbContext.Projects.FirstOrDefaultAsync(p => p.Id.Equals(parsedId));
+                    var project = await this._dbContext.Projects.FirstAsync(p => p.Id.Equals(parsedId));
                     if (project == null)
                     {
                         return NotFound(new { Error = $"Project with Id {projectId} does not exist" });
