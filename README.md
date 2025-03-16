@@ -9,12 +9,13 @@ The plan is:
 4. **Task Status Tracking**: Track the status of tasks (e.g., To Do, In Progress, Done).
 5. **Due Dates and Reminders**: Set due dates for tasks and send reminders.
 
-## Frontend (WPF)
+## Frontend
 1. **User Interface**: Design a clean and intuitive UI for managing tasks.
-2. **Task List View**: Display tasks in a list with filtering and sorting options.
-3. **Task Details View**: Show detailed information about a selected task.
-4. **Task Creation and Editing**: Provide forms for creating and editing tasks.
-5. **Notifications**: Display notifications for task reminders and status changes.
+2. **Project List View**: The ability to create projects, where tasks will be added.
+3. **Task List View**: Display tasks in a list with filtering and sorting options.
+4. **Task Details View**: Show detailed information about a selected task.
+5. **Task Creation and Editing**: Provide forms for creating and editing tasks.
+6. **Notifications**: Display notifications for task reminders and status changes.
 
 ## Additional Features
 - **Search Functionality**: Implement search to quickly find tasks.
