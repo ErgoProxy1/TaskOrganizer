@@ -4,7 +4,7 @@ using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TaskOrganizer.API.Contracts;
+using TaskOrganizer.API.DTOs;
 using TaskOrganizer.API.Models;
 
 namespace TaskOrganizer.API.Controllers

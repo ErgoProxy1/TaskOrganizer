@@ -2,18 +2,19 @@
 
 namespace TaskOrganizer.API.Models
 {
-  [FirestoreData]
-  public class CommentModel
-  {
-    public string Id { get; set; } = string.Empty;
-    public string TaskId { get; set; } = string.Empty;
-    [FirestoreProperty]
-    public required string CreatedByUid { get; set; }
-    [FirestoreProperty]
-    public required string Text { get; set; }
-    [FirestoreProperty]
-    public required DateTime CreatedDate { get; init; }
-    [FirestoreProperty]
-    public required DateTime UpdatedDate { get; set; }
-  }
+    
+    public class CommentModel
+    {
+
+        public required Guid Id { get; set; }
+        public required Guid TaskId { get; set; }
+        
+        public required string CreatedByUid { get; set; }
+        
+        public required string Text { get; set; }
+        
+        public required DateTime CreatedDate { get; init; }
+        
+        public required DateTime UpdatedDate { get; set; }
+    }
 }

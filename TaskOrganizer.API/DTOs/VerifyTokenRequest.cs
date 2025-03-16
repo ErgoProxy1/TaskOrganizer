@@ -1,4 +1,4 @@
-﻿namespace TaskOrganizer.API.Contracts
+﻿namespace TaskOrganizer.API.DTOs
 {
   public class VerifyTokenRequest
   {

@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Navigation;
-using TaskOrganizer.API.Contracts;
 using TaskOrganizer.Desktop.Helper;
-using TaskOrganizer.API.Models;
 using TaskOrganizer.Desktop.Services;
+using TaskOrganizer.API.Models;
+using TaskOrganizer.API.DTOs;
 
 namespace TaskOrganizer.Desktop.Pages.Login
 {

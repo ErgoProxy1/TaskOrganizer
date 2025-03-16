@@ -3,6 +3,9 @@ using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.EntityFrameworkCore.InMemory;
+using Microsoft.EntityFrameworkCore;
+using TaskOrganizer.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,20 +38,23 @@ Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", tempFilePat
 // Initialize Firebase
 FirebaseApp.Create(new AppOptions()
 {
-  Credential = GoogleCredential.GetApplicationDefault(),
+    Credential = GoogleCredential.GetApplicationDefault(),
 });
 
-// Add Firestore
-builder.Services.AddSingleton(FirestoreDb.Create("taskmanager-f9cd2"));
-
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<TaskOrganizerDbContext>(options => options.UseInMemoryDatabase("TaskOrganizerDb"));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseDeveloperExceptionPage();
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 // CORS

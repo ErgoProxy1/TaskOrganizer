@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TaskOrganizer.API.Contracts;
+using TaskOrganizer.API.DTOs;
 using TaskOrganizer.Desktop.Helper;
 
 namespace TaskOrganizer.Desktop.Pages.Signup
