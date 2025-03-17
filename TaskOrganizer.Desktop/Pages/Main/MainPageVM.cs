@@ -15,9 +15,9 @@ namespace TaskOrganizer.Desktop.Pages.Main
     {
       _auth = auth;
     }
-    public string Username 
+    public string DisplayName 
     {
-      get => _auth.CurrentUser?.Username ?? string.Empty;
+      get => _auth.CurrentUser?.DisplayName ?? string.Empty;
     }
 
     public string Email

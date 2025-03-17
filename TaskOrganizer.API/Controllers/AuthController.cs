@@ -31,7 +31,7 @@ namespace TaskOrganizer.API.Controllers
         var decodedToken = await _fbauth.VerifyIdTokenAsync(request.IdToken);
         decodedToken.Claims.TryGetValue("email", out object? emailClaim);
         decodedToken.Claims.TryGetValue("name", out object? nameClaim);
-        return Ok(new UserModel { Uid = decodedToken?.Uid ?? string.Empty, Email = emailClaim?.ToString() ?? string.Empty, Username = nameClaim?.ToString() ?? string.Empty});
+        return base.Ok(new DTOs.UserResponseDTO{ Uid = decodedToken?.Uid ?? string.Empty, Email = emailClaim?.ToString() ?? string.Empty, DisplayName = nameClaim?.ToString() ?? string.Empty});
       }
       catch (Exception ex)
       {

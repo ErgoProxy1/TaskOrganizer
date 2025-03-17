@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskOrganizer.API.Models;
+﻿
+using TaskOrganizer.API.DTOs;
 
 namespace TaskOrganizer.Desktop.Services
 {
   public class AuthService
   {
-    public UserModel? CurrentUser { get; private set; }
+    public UserResponseDTO? CurrentUser { get; private set; }
 
-    public void SetCurrentUser(UserModel? user)
+    public void SetCurrentUser(UserResponseDTO? user)
     {
       if (user is not null)
       {

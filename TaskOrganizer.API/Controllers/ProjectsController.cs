@@ -22,7 +22,7 @@ namespace TaskOrganizer.API.Controllers
         {
             try
             {
-                var projects = await _dbContext.Projects.ToListAsync<ProjectModel>();
+                var projects = await _dbContext.Projects.ToListAsync<Project>();
                 return Ok(projects);
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace TaskOrganizer.API.Controllers
         {
             try
             {
-                var project = new ProjectModel
+                var project = new Project
                 {
                     Id = Guid.NewGuid(),
                     Name = request.Name,
@@ -85,7 +85,7 @@ namespace TaskOrganizer.API.Controllers
                 Guid parsedId;
                 if (Guid.TryParse(projectId, out parsedId))
                 {
-                    var project = new ProjectModel
+                    var project = new Project
                     {
                         Id = parsedId,
                         Name = request.Name,

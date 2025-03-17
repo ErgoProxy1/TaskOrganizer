@@ -45,7 +45,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TaskOrganizerDbContext>(options => options.UseInMemoryDatabase("TaskOrganizerDb"));
+builder.Services.AddDbContext<TaskOrganizerDbContext>(options => options.UseNpgsql(builder.Configuration.GetValue<string>("SQL_CONNECTION")));
 
 var app = builder.Build();
 

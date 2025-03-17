@@ -47,7 +47,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
       LoginCommand = new AsyncRelayCommand<object>(SignInWithEmailAndPassword);
     }
 
-    private async Task SignInWithEmailAndPassword(object? passwordBox)
+    private async System.Threading.Tasks.Task SignInWithEmailAndPassword(object? passwordBox)
     {
       using (HttpClient client = new HttpClient())
       {
@@ -80,7 +80,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
       }
     }
 
-    private async Task SendIdTokenToBackend(string idToken)
+    private async System.Threading.Tasks.Task SendIdTokenToBackend(string idToken)
     {
       using (HttpClient client = new HttpClient())
       {
@@ -90,7 +90,7 @@ namespace TaskOrganizer.Desktop.Pages.Login
         if (response.IsSuccessStatusCode)
         {
           var responseBody = await response.Content.ReadAsStringAsync();
-          var userResponse = JsonConvert.DeserializeObject<UserModel>(responseBody);
+          var userResponse = JsonConvert.DeserializeObject<API.DTOs.UserResponseDTO>(responseBody);
           _authService.SetCurrentUser(userResponse);
           LoginSuccessful?.Invoke(this, EventArgs.Empty);
         }

@@ -7,9 +7,9 @@ namespace TaskOrganizer.API.Data
     {
         public TaskOrganizerDbContext(DbContextOptions<TaskOrganizerDbContext> options) : base(options) { }
 
-        public DbSet<TaskModel> Tasks { get; set; }
-        public DbSet<ProjectModel> Projects { get; set; }
-        public DbSet<TaskModel> Comments { get; set; }
+        public DbSet<Models.Task> Tasks { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
     }
 }
