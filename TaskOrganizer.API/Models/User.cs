@@ -8,13 +8,18 @@ using System.Threading.Tasks;
 
 namespace TaskOrganizer.API.Models
 {
-    public class UserResponseDTO
+    public class User
     {
+        [Key]
         [Required]
         public required string Uid { get; set; }
         public string ProfilePictureUrl { get; set; } = "";
         [Required]
         public string Role { get; set; } = "user";
+
+        // Navigation
+        public ICollection<UserProject> UserProjects { get; set; } = new List<UserProject>();
+
     }
 
 }

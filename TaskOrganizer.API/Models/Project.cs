@@ -12,5 +12,8 @@ namespace TaskOrganizer.API.Models
         public string Description { get; set; } = "";
         [Required]
         public required string CreatedByUid { get; init; }
+
+        // Navigation
+        public ICollection<UserProject> UserProjects { get; set; } = new List<UserProject>();
     }
 }
