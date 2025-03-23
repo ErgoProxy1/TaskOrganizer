@@ -6,6 +6,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore.InMemory;
 using Microsoft.EntityFrameworkCore;
 using TaskOrganizer.API.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://securetoken.google.com/taskmanager-f9cd2";
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "https://securetoken.google.com/taskmanager-f9cd2",
+            ValidateAudience = true,
+            ValidAudience = "taskmanager-f9cd2",
+            ValidateLifetime = true
+        };
+    });
+
 builder.Services.AddDbContext<TaskOrganizerDbContext>(options => options.UseNpgsql(builder.Configuration.GetValue<string>("SQL_CONNECTION")));
 
 var app = builder.Build();
@@ -60,6 +75,7 @@ if (app.Environment.IsDevelopment())
 // CORS
 app.UseCors("MyAllowSpecificOrigins");
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
