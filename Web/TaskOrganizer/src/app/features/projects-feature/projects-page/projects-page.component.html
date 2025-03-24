@@ -1,2 +1,6 @@
-<div>Hello {{ this.userSignal()?.displayName }}!!!</div>
-<button tuiButton (click)="logout()">logout</button>
+<header tuiNavigationHeader>
+  <app-avatar class="select-none"></app-avatar>
+</header>
+<main tuiNavigationMain>
+  <div>Hello {{ this.userSignal()?.displayName }}!!!</div>
+</main>

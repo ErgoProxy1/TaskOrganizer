@@ -47,7 +47,7 @@ export class LoginPageComponent {
         next: (user) => {
           if (user) {
             this.loading.set(false);
-            this.router.navigate(['/app/projects']);
+            this.router.navigate(['/projects']);
           } else {
             this.showAlert(new AuthError('Token error, please try again later', 'shield-x'));
           }

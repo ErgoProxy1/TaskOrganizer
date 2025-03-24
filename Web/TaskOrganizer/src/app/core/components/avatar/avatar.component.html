@@ -1,0 +1,16 @@
+<tui-avatar
+  [src]="this.userInitials()"
+  [tuiDropdown]="actionsDropdown"
+  [tuiDropdownManual]="dropdownOpen()"
+  [tuiObscuredEnabled]="dropdownOpen()"
+  (click)="onClick()"
+  (tuiActiveZoneChange)="onActiveZone($event)"
+  (tuiObscured)="onObscured($event)"
+/>
+<ng-template #actionsDropdown>
+  <div class="flex flex-col">
+    <button tuiButton (click)="navigateToProfile()">Profile</button>
+    <button tuiButton (click)="navigateToSettings()">Settings</button>
+    <button tuiButton (click)="logout()">Logout</button>
+  </div>
+</ng-template>
