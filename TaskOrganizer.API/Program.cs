@@ -60,7 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddDbContext<TaskOrganizerDbContext>(options => options.UseNpgsql(builder.Configuration.GetValue<string>("SQL_CONNECTION")));
+builder.Services.AddDbContext<TaskOrganizerDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
 
 var app = builder.Build();
 

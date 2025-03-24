@@ -1,6 +1,7 @@
 ﻿using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2.Requests;
 using Google.Cloud.Firestore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace TaskOrganizer.API.Controllers
   [Route("api/[controller]")]
   [ApiController]
   [EnableCors("MyPolicy")]
+  [Authorize]
   public class AuthController : ControllerBase
   {
     private FirebaseAuth _fbauth;
@@ -31,16 +33,16 @@ namespace TaskOrganizer.API.Controllers
         var decodedToken = await _fbauth.VerifyIdTokenAsync(request.IdToken);
         decodedToken.Claims.TryGetValue("email", out object? emailClaim);
         decodedToken.Claims.TryGetValue("name", out object? nameClaim);
-        return base.Ok(new DTOs.UserResponseDTO{ Uid = decodedToken?.Uid ?? string.Empty, Email = emailClaim?.ToString() ?? string.Empty, DisplayName = nameClaim?.ToString() ?? string.Empty});
+        return base.Ok(new DTOs.UserResponseDTO { Uid = decodedToken?.Uid ?? string.Empty, Email = emailClaim?.ToString() ?? string.Empty, DisplayName = nameClaim?.ToString() ?? string.Empty });
       }
       catch (Exception ex)
       {
-        return BadRequest(new {Error = ex.Message});
+        return BadRequest(new { Error = ex.Message });
       }
     }
 
     [HttpPost("create-user")]
-    public async Task<IActionResult> CreateUser([FromBody] SignupRequest request) 
+    public async Task<IActionResult> CreateUser([FromBody] SignupRequest request)
     {
       try
       {
