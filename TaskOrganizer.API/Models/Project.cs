@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TaskOrganizer.API.Models
 {
@@ -14,6 +15,9 @@ namespace TaskOrganizer.API.Models
         public required string CreatedByUid { get; init; }
 
         // Navigation
-        public ICollection<UserProject> UserProjects { get; set; } = new List<UserProject>();
+        [JsonIgnore]
+        public List<User> Users { get; } = [];
+        [JsonIgnore]
+        public List<UserProject> UserProjects { get; } = [];
     }
 }

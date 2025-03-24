@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace TaskOrganizer.API.Models
@@ -18,7 +19,10 @@ namespace TaskOrganizer.API.Models
         public string Role { get; set; } = "user";
 
         // Navigation
-        public ICollection<UserProject> UserProjects { get; set; } = new List<UserProject>();
+        [JsonIgnore]
+        public List<Project> Projects { get; } = [];
+        [JsonIgnore]
+        public List<UserProject> UserProjects { get; } = [];
 
     }
 
