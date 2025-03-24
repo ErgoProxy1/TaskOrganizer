@@ -6,10 +6,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 import { TuiNavigation } from '@taiga-ui/layout';
 import { AvatarComponent } from '../../../core/components/avatar/avatar.component';
+import { ProjectHeaderComponent } from '../project-header/project-header.component';
 
 @Component({
   selector: 'app-projects-page',
-  imports: [TuiButton, TuiNavigation, AvatarComponent],
+  imports: [TuiButton, TuiNavigation, AvatarComponent, ProjectHeaderComponent],
   templateUrl: './projects-page.component.html',
   styleUrl: './projects-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

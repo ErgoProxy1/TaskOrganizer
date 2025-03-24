@@ -26,6 +26,7 @@
     "@taiga-ui/icons": "^4.28.0",
     "@taiga-ui/kit": "^4.28.0",
     "@taiga-ui/layout": "^4.28.0",
+    "@taiga-ui/styles": "^4.30.0",
     "@tailwindcss/postcss": "^4.0.14",
     "firebase": "^11.4.0",
     "postcss": "^8.5.3",
