@@ -11,7 +11,7 @@ export const isAuthGuard: CanActivateFn = (route, state) => {
   return authState(auth).pipe(
     map((user) => {
       if (user) {
-        router.navigate(['tasks']);
+        router.navigate(['/app/projects']);
         return false;
       } else {
         return true;

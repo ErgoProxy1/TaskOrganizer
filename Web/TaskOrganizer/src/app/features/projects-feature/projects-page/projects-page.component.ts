@@ -6,13 +6,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
 
 @Component({
-  selector: 'app-tasks-page',
+  selector: 'app-projects-page',
   imports: [TuiButton],
-  templateUrl: './tasks-page.component.html',
-  styleUrl: './tasks-page.component.scss',
+  templateUrl: './projects-page.component.html',
+  styleUrl: './projects-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TasksPageComponent {
+export class ProjectsPageComponent {
   protected userSignal: WritableSignal<User | null>;
 
   private auth = inject(AuthService);
