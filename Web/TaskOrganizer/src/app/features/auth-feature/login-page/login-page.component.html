@@ -1,39 +1,45 @@
 <form [formGroup]="loginForm" (ngSubmit)="submit()" tuiForm="m" class="login-container">
-  @let errorsEmail = this.loginForm.controls.email.errors;
-  @let errorsPassword = this.loginForm.controls.password.errors;
-  <header tuiHeader class="w-full pb-4">
-    <h2 tuiTitle="m" class="title">Task Organizer</h2>
-  </header>
-  <div class="w-full pb-2">
-    <tui-textfield>
-      <label tuiLabel>Email</label>
-      <input tuiTextfield formControlName="email" />
-    </tui-textfield>
-    @if (this.loginForm.controls.email.touched) {
-      @if (errorsEmail?.['email']) {
-        <tui-error error="Please enter a valid email"></tui-error>
-      } @else if (errorsEmail?.['required']) {
-        <tui-error error="Please enter your email"></tui-error>
+  @if (!this.loading()) {
+    @let errorsEmail = this.loginForm.controls.email.errors;
+    @let errorsPassword = this.loginForm.controls.password.errors;
+    <header tuiHeader class="w-full pb-4">
+      <h2 tuiTitle="m" class="title">Task Organizer</h2>
+    </header>
+    <div class="w-full pb-2">
+      <tui-textfield>
+        <label tuiLabel>Email</label>
+        <input tuiTextfield formControlName="email" />
+      </tui-textfield>
+      @if (this.loginForm.controls.email.touched) {
+        @if (errorsEmail?.['email']) {
+          <tui-error error="Please enter a valid email"></tui-error>
+        } @else if (errorsEmail?.['required']) {
+          <tui-error error="Please enter your email"></tui-error>
+        }
       }
-    }
-  </div>
-  <div class="w-full pb-2">
-    <tui-textfield>
-      <label tuiLabel>Password</label>
-      <input tuiTextfield type="password" formControlName="password" />
-    </tui-textfield>
-    @if (this.loginForm.controls.password.touched) {
-      @if (errorsPassword?.['required']) {
-        <tui-error error="Please enter a valid password"></tui-error>
+    </div>
+    <div class="w-full pb-2">
+      <tui-textfield>
+        <label tuiLabel>Password</label>
+        <input tuiTextfield type="password" formControlName="password" />
+      </tui-textfield>
+      @if (this.loginForm.controls.password.touched) {
+        @if (errorsPassword?.['required']) {
+          <tui-error error="Please enter a valid password"></tui-error>
+        }
       }
-    }
-  </div>
-  <button class="button" tuiButton type="submit" [disabled]="!loginForm.valid">Login</button>
-  <div class="or-group">
-    <mat-divider></mat-divider>
-    <div>or</div>
-    <mat-divider></mat-divider>
-  </div>
-  <!--TODO-->
-  <button class="button" tuiButton type="button" (click)="switchPage.emit()">Sign up</button>
+    </div>
+    <button class="button" tuiButton type="submit" [disabled]="!loginForm.valid">Login</button>
+    <div class="or-group">
+      <mat-divider></mat-divider>
+      <div>or</div>
+      <mat-divider></mat-divider>
+    </div>
+    <!--TODO-->
+    <button class="button" tuiButton type="button" (click)="switchPage.emit()">Sign up</button>
+  } @else {
+    <div class="min-h-80 w-full flex justify-center flex-col">
+      <tui-loader size="xl"></tui-loader>
+    </div>
+  }
 </form>

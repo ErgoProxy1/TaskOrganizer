@@ -61,13 +61,13 @@ export class SignupPageComponent {
           },
           error: (error: AuthError) => {
             this.showAlert(error);
-            this.loading.set(false);
           },
         });
     }
   }
 
   private showAlert(error: AuthError) {
+    this.loading.set(false);
     this.tuiAlert.open(error.message, { autoClose: 3000, icon: error.icon, appearance: 'negative' }).pipe(take(1)).subscribe();
   }
 }

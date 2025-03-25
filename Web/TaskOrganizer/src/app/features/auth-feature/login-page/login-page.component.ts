@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiHeader } from '@taiga-ui/layout';
-import { TuiAlertService, TuiAppearance, TuiButton, TuiError, TuiTextfield, TuiTitle } from '@taiga-ui/core';
+import { TuiAlertService, TuiAppearance, TuiButton, TuiError, TuiLoader, TuiTextfield, TuiTitle } from '@taiga-ui/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, TuiButton, TuiError, TuiTextfield, TuiTitle, TuiAppearance, TuiHeader, MatDividerModule],
+  imports: [ReactiveFormsModule, TuiButton, TuiError, TuiTextfield, TuiTitle, TuiAppearance, TuiHeader, MatDividerModule, TuiLoader],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
 })
@@ -45,7 +45,6 @@ export class LoginPageComponent {
       .subscribe({
         next: (user) => {
           if (user) {
-            this.loading.set(false);
             this.router.navigate(['/projects']);
           } else {
             this.showAlert(new AuthError('Token error, please try again later', 'shield-x'));
