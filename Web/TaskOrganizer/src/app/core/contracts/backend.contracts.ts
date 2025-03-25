@@ -3,7 +3,7 @@ export class VerifyTokenRequest {
 }
 
 export class SignupRequest {
-  public Email = '';
-  public Password = '';
-  public Username = '';
+  public email = '';
+  public password = '';
+  public username = '';
 }

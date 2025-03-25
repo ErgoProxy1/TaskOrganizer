@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable, catchError, from, take, tap, throwError } from 'rxjs';
 import { AuthError } from '../models/auth.models';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Auth, User, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential, updateProfile } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -53,6 +53,27 @@ export class AuthService {
     return from(this.auth.signOut()).pipe(
       take(1),
       tap(() => this.router.navigate([''])),
+    );
+  }
+
+  signup(email: string, password: string, username: string): Observable<UserCredential> {
+    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
+      take(1),
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 0) {
+          return throwError(() => new AuthError('Could not reach server, please verify your connection', 'server-crash'));
+        }
+        if (err.status === 400) {
+          return throwError(() => new AuthError('Signup error, please verify your credentials', 'circle-x'));
+        }
+        return throwError(() => this.unknownError);
+      }),
+      tap(async (userCredential) => {
+        if (userCredential.user) {
+          // Update the user's profile with the displayName
+          await updateProfile(userCredential.user, { displayName: username });
+        }
+      }),
     );
   }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskOrganizer.API.Data;
 using TaskOrganizer.API.DTOs;
 using TaskOrganizer.API.Models;
 
@@ -13,15 +14,15 @@ namespace TaskOrganizer.API.Controllers
   [Route("api/[controller]")]
   [ApiController]
   [EnableCors("MyPolicy")]
-  [Authorize]
+  [AllowAnonymous]
   public class AuthController : ControllerBase
   {
     private FirebaseAuth _fbauth;
-    private FirestoreDb _firestoreDb;
-    public AuthController(FirestoreDb firestoreDb)
+    private TaskOrganizerDbContext _dbContext;
+    public AuthController(TaskOrganizerDbContext dbContext)
     {
       _fbauth = FirebaseAuth.DefaultInstance;
-      _firestoreDb = firestoreDb;
+      _dbContext = dbContext;
     }
 
     [EnableCors("MyAllowSpecificOrigins")]
@@ -44,13 +45,20 @@ namespace TaskOrganizer.API.Controllers
     [HttpPost("create-user")]
     public async Task<IActionResult> CreateUser([FromBody] SignupRequest request)
     {
+      UserRecord? user = null;
       try
       {
-        var user = await _fbauth.CreateUserAsync(new UserRecordArgs { Email = request.Email, Password = request.Password, DisplayName = request.Username });
+        user = await _fbauth.CreateUserAsync(new UserRecordArgs { Email = request.Email, Password = request.Password, DisplayName = request.Username });
+        _dbContext.Users.Add(new User { Uid = user.Uid});
+        await _dbContext.SaveChangesAsync();
         return Ok();
       }
       catch (Exception ex)
       {
+        if(user != null)
+        {
+          await _fbauth.DeleteUserAsync(user.Uid);
+        }
         return BadRequest(new { Error = ex.Message });
       }
     }
