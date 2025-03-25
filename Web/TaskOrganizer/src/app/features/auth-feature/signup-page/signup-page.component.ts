@@ -17,7 +17,6 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule, TuiButton, TuiError, TuiTextfield, TuiTitle, TuiAppearance, TuiHeader, MatDividerModule, TuiLoader],
   templateUrl: './signup-page.component.html',
   styleUrl: './signup-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignupPageComponent {
   public switchPage = output();
@@ -53,6 +52,7 @@ export class SignupPageComponent {
         .pipe(take(1), takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: () => {
+            this.loading.set(false);
             this.switchPage.emit();
             this.tuiAlert
               .open('Signup successful, please login', { autoClose: 3000, icon: 'check', appearance: 'success' })
@@ -61,10 +61,10 @@ export class SignupPageComponent {
           },
           error: (error: AuthError) => {
             this.showAlert(error);
+            this.loading.set(false);
           },
         });
     }
-    this.loading.set(false);
   }
 
   private showAlert(error: AuthError) {

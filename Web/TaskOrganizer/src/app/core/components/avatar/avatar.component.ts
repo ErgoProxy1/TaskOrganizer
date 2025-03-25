@@ -13,7 +13,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [TuiAvatar, TuiDropdown, TuiObscured, TuiActiveZone, TuiButton],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarComponent {
   protected userSignal: WritableSignal<User | null>;

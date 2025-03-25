@@ -10,10 +10,9 @@ import { ProjectHeaderComponent } from '../project-header/project-header.compone
 
 @Component({
   selector: 'app-projects-page',
-  imports: [TuiButton, TuiNavigation, AvatarComponent, ProjectHeaderComponent],
+  imports: [TuiNavigation, ProjectHeaderComponent],
   templateUrl: './projects-page.component.html',
   styleUrl: './projects-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsPageComponent {
   protected userSignal: WritableSignal<User | null>;

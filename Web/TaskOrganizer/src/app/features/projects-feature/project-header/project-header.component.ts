@@ -7,6 +7,5 @@ import { TuiButton, TuiIcon } from '@taiga-ui/core';
   imports: [AvatarComponent, TuiIcon, TuiButton],
   templateUrl: './project-header.component.html',
   styleUrl: './project-header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectHeaderComponent {}

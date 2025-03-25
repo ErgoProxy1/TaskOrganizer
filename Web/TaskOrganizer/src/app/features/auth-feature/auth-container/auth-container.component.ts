@@ -8,7 +8,6 @@ import { TuiCardLarge } from '@taiga-ui/layout';
   imports: [LoginPageComponent, SignupPageComponent, TuiCardLarge],
   templateUrl: './auth-container.component.html',
   styleUrl: './auth-container.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthContainerComponent {
   protected currentPage: 'login' | 'signup' = 'login';

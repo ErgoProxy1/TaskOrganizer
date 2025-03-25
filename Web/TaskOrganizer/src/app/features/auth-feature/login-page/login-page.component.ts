@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule, TuiButton, TuiError, TuiTextfield, TuiTitle, TuiAppearance, TuiHeader, MatDividerModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent {
   public switchPage = output();
