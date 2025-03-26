@@ -54,7 +54,6 @@ namespace TaskOrganizer.API.Controllers
           Email = request.Email,
           Password = request.Password,
           DisplayName = request.Username,
-          PhotoUrl = "",
         });
         
         _dbContext.Users.Add(new User

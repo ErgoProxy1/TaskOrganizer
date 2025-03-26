@@ -4,6 +4,7 @@ import { AuthError } from '../models/auth.models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Auth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential, updateProfile } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { FirebaseError } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root',
@@ -25,11 +26,11 @@ export class AuthService {
   login(email: string, password: string): Observable<User> {
     return from(signInWithEmailAndPassword(this.auth, email, password).then((res) => res.user)).pipe(
       take(1),
-      catchError((err: HttpErrorResponse) => {
-        if (err.status === 0) {
+      catchError((err: FirebaseError) => {
+        if (err.code === '') {
           return throwError(() => new AuthError('Could not reach server, please verify your connection', 'server-crash'));
         }
-        if (err.status === 400) {
+        if (['auth/user-not-found', 'auth/wrong-password', 'auth/invalid-credential'].includes(err.code)) {
           return throwError(() => new AuthError('Login error, please verify your credentials', 'circle-x'));
         }
         return throwError(() => this.unknownError);
