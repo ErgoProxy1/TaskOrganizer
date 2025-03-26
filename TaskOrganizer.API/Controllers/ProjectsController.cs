@@ -12,6 +12,7 @@ namespace TaskOrganizer.API.Controllers
   [Route("api/[controller]")]
   [ApiController]
   [Authorize]
+  [AllowAnonymous]
   public class ProjectsController : ControllerBase
   {
     private readonly TaskOrganizerDbContext _dbContext;
@@ -29,7 +30,7 @@ namespace TaskOrganizer.API.Controllers
         {
           var query = _dbContext.Users.Where(u => u.Uid.Equals(userId)).SelectMany(u => u.UserProjects).Select(up => up.Project);
           var projects = await query.ToListAsync<Project>();
-          return Ok(projects); 
+          return Ok(projects);
         }
         throw new Exception("User Id unspecified");
       }
@@ -64,36 +65,36 @@ namespace TaskOrganizer.API.Controllers
     }
 
     [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ProjectDTO request)
+    public async Task<IActionResult> Post([FromBody] ProjectDTO request)
+    {
+      try
+      {
+        var user = await _dbContext.Users.Include(u => u.UserProjects).FirstOrDefaultAsync(u => u.Uid == request.CreatedByUid);
+        if (user == null)
         {
-            try
-            {
-                var user = await _dbContext.Users.Include(u => u.UserProjects).FirstOrDefaultAsync(u => u.Uid == request.CreatedByUid);
-                if (user == null)
-                {
-                    return NotFound(new { Error = "User not found" });
-                }
-
-                var project = new Project
-                {
-                    Id = Guid.NewGuid(),
-                    Name = request.Name,
-                    CreatedByUid = request.CreatedByUid,
-                    Description = request.Description,
-                };
-                project.UserProjects.Add(new UserProject { Project = project, User = user });
-
-                _dbContext.Projects.Add(project);
-
-                await _dbContext.SaveChangesAsync();
-
-                return Ok(project);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Error = ex.Message });
-            }
+          return NotFound(new { Error = "User not found" });
         }
+
+        var project = new Project
+        {
+          Id = Guid.NewGuid(),
+          Name = request.Name,
+          CreatedByUid = request.CreatedByUid,
+          Description = request.Description,
+        };
+        project.UserProjects.Add(new UserProject { Project = project, User = user });
+
+        _dbContext.Projects.Add(project);
+
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(project);
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { Error = ex.Message });
+      }
+    }
 
     [HttpPut("{projectId}")]
     //TODO

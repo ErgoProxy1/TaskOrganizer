@@ -48,14 +48,29 @@ namespace TaskOrganizer.API.Controllers
       UserRecord? user = null;
       try
       {
-        user = await _fbauth.CreateUserAsync(new UserRecordArgs { Email = request.Email, Password = request.Password, DisplayName = request.Username });
-        _dbContext.Users.Add(new User { Uid = user.Uid});
+        
+        user = await _fbauth.CreateUserAsync(new UserRecordArgs
+        {
+          Email = request.Email,
+          Password = request.Password,
+          DisplayName = request.Username,
+          PhotoUrl = "",
+        });
+        
+        _dbContext.Users.Add(new User
+        {
+          Uid = user.Uid,
+          DisplayName = request.Username,
+          Email = request.Email,
+          PhotoUrl = ""
+        });
+
         await _dbContext.SaveChangesAsync();
         return Ok();
       }
       catch (Exception ex)
       {
-        if(user != null)
+        if (user != null)
         {
           await _fbauth.DeleteUserAsync(user.Uid);
         }

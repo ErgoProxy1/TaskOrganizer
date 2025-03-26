@@ -9,21 +9,24 @@ using System.Threading.Tasks;
 
 namespace TaskOrganizer.API.Models
 {
-    public class User
-    {
-        [Key]
-        [Required]
-        public required string Uid { get; set; }
-        public string ProfilePictureUrl { get; set; } = "";
-        [Required]
-        public string Role { get; set; } = "user";
+  public class User
+  {
+    [Key]
+    [Required]
+    public required string Uid { get; set; }
+    [Required]
+    public required string PhotoUrl { get; set; }
+    [Required]
+    public string Role { get; set; } = "user";
+    [Required]
+    public required string DisplayName { get; set; }
+    [Required]
+    public required string Email { get; set; }
 
-        // Navigation
-        [JsonIgnore]
-        public List<Project> Projects { get; } = [];
-        [JsonIgnore]
-        public List<UserProject> UserProjects { get; } = [];
+    // Navigation
+    [JsonIgnore]
+    public List<UserProject> UserProjects { get; } = [];
 
-    }
+  }
 
 }

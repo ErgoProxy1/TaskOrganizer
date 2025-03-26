@@ -55,25 +55,4 @@ export class AuthService {
       tap(() => this.router.navigate([''])),
     );
   }
-
-  signup(email: string, password: string, username: string): Observable<UserCredential> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
-      take(1),
-      catchError((err: HttpErrorResponse) => {
-        if (err.status === 0) {
-          return throwError(() => new AuthError('Could not reach server, please verify your connection', 'server-crash'));
-        }
-        if (err.status === 400) {
-          return throwError(() => new AuthError('Signup error, please verify your credentials', 'circle-x'));
-        }
-        return throwError(() => this.unknownError);
-      }),
-      tap(async (userCredential) => {
-        if (userCredential.user) {
-          // Update the user's profile with the displayName
-          await updateProfile(userCredential.user, { displayName: username });
-        }
-      }),
-    );
-  }
 }
