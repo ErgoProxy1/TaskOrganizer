@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TaskOrganizer.API.Data;
@@ -11,9 +12,11 @@ using TaskOrganizer.API.Data;
 namespace TaskOrganizer.API.Migrations
 {
     [DbContext(typeof(TaskOrganizerDbContext))]
-    partial class TaskOrganizerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250326035658_Fix projects model")]
+    partial class Fixprojectsmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

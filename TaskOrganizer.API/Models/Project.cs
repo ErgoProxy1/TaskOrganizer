@@ -16,8 +16,6 @@ namespace TaskOrganizer.API.Models
 
         // Navigation
         [JsonIgnore]
-        public List<User> Users { get; } = [];
-        [JsonIgnore]
         public List<UserProject> UserProjects { get; } = [];
     }
 }
