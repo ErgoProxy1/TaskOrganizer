@@ -7,3 +7,9 @@ export class SignupRequest {
   public password = '';
   public username = '';
 }
+
+export class ProjectDTO {
+  public name = '';
+  public description = '';
+  public createdByUid = '';
+}
