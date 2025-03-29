@@ -12,7 +12,6 @@ namespace TaskOrganizer.API.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  [Authorize]
   [AllowAnonymous]
   public class ProjectsController : ControllerBase
   {
@@ -28,14 +27,14 @@ namespace TaskOrganizer.API.Controllers
       try
       {
         var authorizationHeader = Request?.Headers?.Authorization.ToString();
-        if (authorizationHeader != null && !(await isAuthenticatedUser(authorizationHeader, userId)))
+        if (authorizationHeader != null && (await isAuthenticatedUser(authorizationHeader, userId)))
         {
 
           var query = _dbContext.Users.Where(u => u.Uid.Equals(userId)).SelectMany(u => u.UserProjects).Select(up => up.Project);
           var projects = await query.ToListAsync<Project>();
           return Ok(projects);
         }
-        return Forbid("User identity did not match request identity");
+        return Forbid("Bearer");
 
       }
       catch (Exception ex)
@@ -80,9 +79,9 @@ namespace TaskOrganizer.API.Controllers
         }
 
         var authorizationHeader = Request?.Headers?.Authorization.ToString();
-        if (authorizationHeader != null && !(await isAuthenticatedUser(authorizationHeader, user.Uid)))
+        if (authorizationHeader != null && (await isAuthenticatedUser(authorizationHeader, user.Uid)))
         {
-          var project = new Project
+            var project = new Project
           {
             Id = Guid.NewGuid(),
             Name = request.Name,
@@ -97,7 +96,7 @@ namespace TaskOrganizer.API.Controllers
 
           return Ok(project);
         }
-        return Forbid("User identity did not match request identity");
+        return Forbid("Bearer");
       }
       catch (Exception ex)
       {
@@ -116,7 +115,7 @@ namespace TaskOrganizer.API.Controllers
           return NotFound(new { Error = "User not found" });
         }
         var authorizationHeader = Request?.Headers?.Authorization.ToString();
-        if (authorizationHeader != null && !(await isAuthenticatedUser(authorizationHeader, userId)))
+        if (authorizationHeader != null && (await isAuthenticatedUser(authorizationHeader, userId)))
         {
           Guid parsedId;
           if (Guid.TryParse(projectId, out parsedId))
@@ -135,7 +134,7 @@ namespace TaskOrganizer.API.Controllers
           }
           return NotFound(new { Error = $"Project with Id {projectId} does not exist" });
         }
-        return Forbid("User identity did not match request identity");
+        return Forbid("Bearer");
       }
       catch (Exception ex)
       {
@@ -171,9 +170,13 @@ namespace TaskOrganizer.API.Controllers
 
     private async Task<bool> isAuthenticatedUser(string jwt, string userId)
     {
-      FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(jwt.Split(" ")[1]);
-      string decodedUid = decodedToken.Uid;
-      return decodedUid.Equals(userId);
+      if (!string.IsNullOrWhiteSpace(jwt))
+      {
+        FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(jwt.Split(" ")[1]);
+        string decodedUid = decodedToken.Uid;
+        return decodedUid.Equals(userId); 
+      }
+      return false;
     }
   }
 }
