@@ -2,35 +2,43 @@
   <header tuiHeader class="w-full pb-4">
     <h2 tuiTitle="m" class="title">New Project</h2>
   </header>
-  <div class="w-full pb-2">
-    <label tuiLabel>
-      Name
-      <span class="required">*</span>
-    </label>
-    <tui-input
-      formControlName="name"
-      [maxlength]="60"
-      tuiTextfieldSize="m"
-      [tuiTextfieldLabelOutside]="true"
-      [tuiTextfieldCleaner]="false"
-    ></tui-input>
-    @if (this.projectForm.controls.name.touched) {
-      @if (this.projectForm.controls.name.errors?.['required']) {
-        <tui-error error="Please enter a project name"></tui-error>
+  @if (!this.submited()) {
+    <div class="w-full pb-2">
+      <label tuiLabel>
+        Name
+        <span class="required">*</span>
+      </label>
+      <tui-input
+        formControlName="name"
+        [maxlength]="60"
+        tuiTextfieldSize="m"
+        [tuiTextfieldLabelOutside]="true"
+        [tuiTextfieldCleaner]="false"
+      ></tui-input>
+      @if (this.projectForm.controls.name.touched) {
+        @if (this.projectForm.controls.name.errors?.['required']) {
+          <tui-error error="Please enter a project name"></tui-error>
+        }
       }
-    }
-    @if (this.projectForm.controls.name.errors?.['maxlength']) {
-      <tui-error error="Project name must not be more than 60 characters long"></tui-error>
-    }
-    <label tuiLabel class="mt-3">Description</label>
-    <tui-textarea [tuiTextfieldLabelOutside]="true" formControlName="description" [expandable]="true" [maxLength]="400"></tui-textarea>
-    @if (this.projectForm.controls.description.touched && this.projectForm.controls.description.invalid) {
-      @if (this.projectForm.controls.description.errors?.['maxlength']) {
-        <tui-error error="Project description must not be more than 400 characters long"></tui-error>
+      @if (this.projectForm.controls.name.errors?.['maxlength']) {
+        <tui-error error="Project name must not be more than 60 characters long"></tui-error>
       }
-    }
-    <div class="flex justify-end">
-      <button tuiButton appearance="primary" size="m" class="mt-4" type="submit" [disabled]="this.projectForm.invalid && !submited()">Create</button>
+      <label tuiLabel class="mt-3">Description</label>
+      <tui-textarea [tuiTextfieldLabelOutside]="true" formControlName="description" [expandable]="true" [maxLength]="400"></tui-textarea>
+      @if (this.projectForm.controls.description.touched && this.projectForm.controls.description.invalid) {
+        @if (this.projectForm.controls.description.errors?.['maxlength']) {
+          <tui-error error="Project description must not be more than 400 characters long"></tui-error>
+        }
+      }
+      <div class="flex justify-end">
+        <button tuiButton appearance="primary" size="m" class="mt-4" type="submit" [disabled]="this.projectForm.invalid && !submited()">
+          Create
+        </button>
+      </div>
     </div>
-  </div>
+  } @else {
+    <div class="w-full pb-2">
+      <tui-loader size="xl" class="w-full h-full"></tui-loader>
+    </div>
+  }
 </form>
