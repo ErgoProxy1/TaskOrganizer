@@ -1,6 +1,14 @@
-<header tuiNavigationHeader>
-  <app-project-header></app-project-header>
-</header>
-<main tuiNavigationMain>
-  <div>Hello {{ this.userSignal()?.displayName }}!!!</div>
-</main>
+@if (this.userSignal() !== null) {
+  <header tuiNavigationHeader>
+    <app-project-header></app-project-header>
+  </header>
+  <main tuiNavigationMain>
+    <div class="flex flex-col gap-4 w-full h-full px-4 py-2">
+      <app-project-list></app-project-list>
+    </div>
+  </main>
+} @else {
+  <div class="flex justify-center items-center w-full h-full">
+    <tui-loader size="xxl"></tui-loader>
+  </div>
+}
