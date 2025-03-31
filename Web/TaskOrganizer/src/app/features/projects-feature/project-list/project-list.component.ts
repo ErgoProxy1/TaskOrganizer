@@ -24,9 +24,6 @@ export class ProjectListComponent {
 
   constructor() {
     this.userSignal = this.auth.getUserSignal();
-    this.projects$ = this.http.get<ProjectModel[]>(`/api/projects?userId=${this.userSignal()?.uid}`).pipe(
-      tap(() => console.log(this.userSignal())),
-      takeUntilDestroyed(),
-    );
+    this.projects$ = this.http.get<ProjectModel[]>(`/api/projects?userId=${this.userSignal()?.uid}`).pipe(takeUntilDestroyed());
   }
 }

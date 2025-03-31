@@ -1,12 +1,12 @@
 @if (this.userSignal() !== null) {
-  <header tuiNavigationHeader>
-    <app-project-header></app-project-header>
-  </header>
-  <main tuiNavigationMain>
-    <div class="flex flex-col gap-4 w-full h-full px-4 py-2">
-      <app-project-list></app-project-list>
+  <div class="flex flex-col w-full h-full">
+    <header tuiNavigationHeader>
+      <app-project-header></app-project-header>
+    </header>
+    <div class="flex-grow px-8" tuiNavigationMain>
+      <app-project-list class="height-full"></app-project-list>
     </div>
-  </main>
+  </div>
 } @else {
   <div class="flex justify-center items-center w-full h-full">
     <tui-loader size="xxl"></tui-loader>

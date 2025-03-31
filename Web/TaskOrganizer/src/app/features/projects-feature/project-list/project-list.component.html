@@ -1,13 +1,18 @@
-<div class="project-list">
-  @if (userSignal() !== null) {
-    @let projects = projects$ | async;
-    <h2>Project List</h2>
-    <ul>
-      @for (project of projects; track project.id) {
-        <li>
-          {{ project.name }}
-        </li>
-      }
-    </ul>
+@if (userSignal() !== null) {
+  @if (projects$ | async; as projects) {
+    <div class="project-list">
+      <h2>Project List</h2>
+      <ul>
+        @for (project of projects; track project.id) {
+          <li>
+            {{ project.name }}
+          </li>
+        }
+      </ul>
+    </div>
+  } @else {
+    <div class="flex flex-col justify-center w-full h-full">
+      <tui-loader size="xxl"></tui-loader>
+    </div>
   }
-</div>
+}
